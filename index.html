@@ -2,153 +2,291 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shop Acc Roblox</title>
   <style>
-    body { font-family: Arial; margin: 0; background: #f4f4f4; }
-    header { background: #111; color: #fff; padding: 20px; text-align: center; }
-    nav a { color: #fff; margin: 0 15px; text-decoration: none; }
-    .banner, .product-section, .contact, footer { padding: 20px; text-align: center; }
-    .product-card, .recharge-box, .auth-box { background: #fff; padding: 15px; margin: 10px auto; max-width: 400px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
-    .pay-button, button { display: inline-block; padding: 8px 15px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
-    .pay-button { background: #d81b60; color: #fff; text-decoration: none; }
-    .zalo { background: #0088ff; }
-    input, select { width: 90%; padding: 10px; margin: 5px auto; border: 1px solid #ccc; border-radius: 5px; }
-    #balance { font-weight: bold; color: green; }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; background: #f5f5f7;
+    }
+    header {
+      background-color: #202020;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #d81b60;
+    }
+    .banner {
+      background: url('https://cdn.wallpapersafari.com/84/40/qzvVEl.jpg') center/cover no-repeat;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 0 0 10px rgba(0,0,0,0.7);
+      font-size: 32px;
+      font-weight: 700;
+    }
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+    .filter-bar {
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .filter-bar select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-width: 150px;
+      font-size: 14px;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 7px rgb(0 0 0 / 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgb(216 27 96 / 0.3);
+    }
+    .product-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: #eee;
+    }
+    .product-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #222;
+    }
+    .product-desc {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+      flex-grow: 1;
+    }
+    .product-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #d81b60;
+      margin-bottom: 15px;
+    }
+    .btn-buy {
+      background-color: #d81b60;
+      border: none;
+      color: white;
+      padding: 12px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s;
+    }
+    .btn-buy:hover {
+      background-color: #a31544;
+    }
+    footer {
+      background: #202020;
+      color: #bbb;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .filter-bar {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>SHOP ACC ROBLOX</h1>
-    <nav>
-      <a href="#">Trang chủ</a>
-      <a href="#roblox">Roblox</a>
-      <a href="#nap">Nạp tiền</a>
-      <a href="#auth">Đăng nhập / Đăng ký</a>
-    </nav>
-    <div id="user-panel"></div>
-  </header>
 
-  <section id="roblox" class="product-section">
-    <h2>ACC ROBLOX</h2>
-    <div class="product-card">
-      <h3>Acc #001</h3><p>VIP - 100.000đ</p>
-      <a class="pay-button" href="#nap">Mua bằng Momo</a>
-    </div>
+<header>
+  <h1>Shop Acc Roblox</h1>
+  <nav>
+    <a href="#">Trang chủ</a>
+    <a href="#products">Sản phẩm</a>
+    <a href="#nap-tien">Nạp tiền</a>
+    <a href="#login" onclick="alert('Chức năng đăng nhập sẽ được cập nhật!')">Đăng nhập</a>
+  </nav>
+</header>
+
+<section class="banner">
+  Shop Acc Roblox Uy Tín - Giá Rẻ - Bảo Mật Cao
+</section>
+
+<main>
+  <div class="filter-bar">
+    <select id="filter-type" onchange="filterProducts()">
+      <option value="all">Tất cả loại tài khoản</option>
+      <option value="random">Random</option>
+      <option value="vip">VIP</option>
+      <option value="thuong">Thường</option>
+    </select>
+
+    <select id="filter-price" onchange="filterProducts()">
+      <option value="all">Tất cả giá</option>
+      <option value="0-10000">Dưới 10.000đ</option>
+      <option value="10000-50000">10.000đ - 50.000đ</option>
+      <option value="50000-100000">50.000đ - 100.000đ</option>
+      <option value="100000-500000">100.000đ - 500.000đ</option>
+      <option value="500000-99999999">Trên 500.000đ</option>
+    </select>
+  </div>
+
+  <section id="products" class="products">
+    <!-- Sản phẩm sẽ được đổ bằng JS -->
   </section>
+</main>
 
-  <section id="nap" class="product-section">
-    <h2>Nạp tiền (Momo / ZaloPay)</h2>
-    <div class="recharge-box">
-      <select id="amount">
-        <option value="10000">10.000đ</option>
-        <option value="50000">50.000đ</option>
-        <option value="100000">100.000đ</option>
-      </select>
-      <p>Chuyển khoản đến Momo/ZaloPay: 0123456789</p>
-      <p>Nội dung: NAP-[SĐT]</p>
-      <input id="madon" placeholder="Mã giao dịch" />
-      <button onclick="guiMa()">Gửi xác nhận</button>
-      <p id="thongbao"></p>
-    </div>
+<footer>
+  &copy; 2025 Shop Acc Roblox. Bản quyền thuộc về bạn.
+</footer>
 
-    <h2>Nạp Thẻ Cào</h2>
-    <div class="recharge-box">
-      <select id="nhamang">
-        <option value="Viettel">Viettel</option>
-        <option value="Vinaphone">Vinaphone</option>
-        <option value="Mobifone">Mobifone</option>
-      </select>
-      <input id="seri" placeholder="Seri" />
-      <input id="mathe" placeholder="Mã thẻ" />
-      <input id="giatri" placeholder="Mệnh giá (VD: 100000)" />
-      <button onclick="napThe()">Nạp thẻ</button>
-      <p id="tbthe"></p>
-    </div>
-  </section>
+<script>
+  // Danh sách sản phẩm demo
+  const products = [
+    {
+      id: 1,
+      type: 'random',
+      title: 'Acc Roblox Random #001',
+      desc: 'Tài khoản ngẫu nhiên, giá rẻ cho người mới.',
+      price: 15000,
+      img: 'https://cdn-icons-png.flaticon.com/512/5968/5968885.png'
+    },
+    {
+      id: 2,
+      type: 'vip',
+      title: 'Acc Roblox VIP #A10',
+      desc: 'Tài khoản VIP với nhiều item giá trị.',
+      price: 200000,
+      img: 'https://cdn-icons-png.flaticon.com/512/1995/1995532.png'
+    },
+    {
+      id: 3,
+      type: 'thuong',
+      title: 'Acc Roblox Thường #015',
+      desc: 'Tài khoản cơ bản, giá hợp lý.',
+      price: 50000,
+      img: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'
+    },
+    {
+      id: 4,
+      type: 'vip',
+      title: 'Acc Roblox VIP #B07',
+      desc: 'Tài khoản VIP có nhiều skin độc đáo.',
+      price: 350000,
+      img: 'https://cdn-icons-png.flaticon.com/512/1995/1995532.png'
+    },
+    {
+      id: 5,
+      type: 'random',
+      title: 'Acc Roblox Random #013',
+      desc: 'Tài khoản ngẫu nhiên giá tốt, uy tín.',
+      price: 10000,
+      img: 'https://cdn-icons-png.flaticon.com/512/5968/5968885.png'
+    }
+  ];
 
-  <section id="auth" class="product-section">
-    <h2>Đăng nhập / Đăng ký</h2>
-    <div class="auth-box">
-      <input id="username" placeholder="Tên đăng nhập" />
-      <input id="password" type="password" placeholder="Mật khẩu" />
-      <button onclick="dangKy()">Đăng ký</button>
-      <button onclick="dangNhap()">Đăng nhập</button>
-      <p id="thongbaoAuth"></p>
-    </div>
-  </section>
+  function formatCurrency(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+  }
 
-  <footer><p>&copy; 2025 Shop Acc Roblox</p></footer>
+  function renderProducts(list) {
+    const container = document.getElementById('products');
+    container.innerHTML = '';
+    if(list.length === 0) {
+      container.innerHTML = '<p>Không có sản phẩm phù hợp.</p>';
+      return;
+    }
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img class="product-img" src="${p.img}" alt="${p.title}" />
+        <div class="product-info">
+          <div class="product-title">${p.title}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="product-price">${formatCurrency(p.price)}</div>
+          <button class="btn-buy" onclick="alert('Bạn cần đăng nhập để mua sản phẩm này!')">Mua ngay</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
 
-  <script>
-    function dangKy() {
-      let u = document.getElementById('username').value;
-      let p = document.getElementById('password').value;
-      if(localStorage.getItem('user_' + u)) {
-        document.getElementById('thongbaoAuth').innerText = 'Tài khoản đã tồn tại!';
-      } else {
-        localStorage.setItem('user_' + u, JSON.stringify({ password: p, balance: 0 }));
-        document.getElementById('thongbaoAuth').innerText = 'Đăng ký thành công!';
-      }
+  function filterProducts() {
+    const typeFilter = document.getElementById('filter-type').value;
+    const priceFilter = document.getElementById('filter-price').value;
+
+    let filtered = products;
+
+    if(typeFilter !== 'all') {
+      filtered = filtered.filter(p => p.type === typeFilter);
     }
 
-    function dangNhap() {
-      let u = document.getElementById('username').value;
-      let p = document.getElementById('password').value;
-      let data = localStorage.getItem('user_' + u);
-      if(data) {
-        let obj = JSON.parse(data);
-        if(obj.password === p) {
-          localStorage.setItem('currentUser', u);
-          capNhatUser();
-        } else {
-          document.getElementById('thongbaoAuth').innerText = 'Sai mật khẩu!';
-        }
-      } else {
-        document.getElementById('thongbaoAuth').innerText = 'Không tìm thấy tài khoản!';
-      }
+    if(priceFilter !== 'all') {
+      const [min, max] = priceFilter.split('-').map(x => parseInt(x));
+      filtered = filtered.filter(p => p.price >= min && p.price <= max);
     }
 
-    function capNhatUser() {
-      let u = localStorage.getItem('currentUser');
-      if(u) {
-        let data = JSON.parse(localStorage.getItem('user_' + u));
-        document.getElementById('user-panel').innerHTML = `Xin chào, <strong>${u}</strong> | Số dư: <span id="balance">${data.balance}đ</span>`;
-      }
-    }
+    renderProducts(filtered);
+  }
 
-    function guiMa() {
-      let ma = document.getElementById('madon').value;
-      let tien = parseInt(document.getElementById('amount').value);
-      let u = localStorage.getItem('currentUser');
-      if(u) {
-        let user = JSON.parse(localStorage.getItem('user_' + u));
-        user.balance += tien;
-        localStorage.setItem('user_' + u, JSON.stringify(user));
-        capNhatUser();
-        document.getElementById('thongbao').innerText = `Đã cộng ${tien}đ vào tài khoản!`;
-      } else {
-        document.getElementById('thongbao').innerText = 'Bạn cần đăng nhập trước.';
-      }
-    }
+  // Lần đầu load trang show tất cả sản phẩm
+  filterProducts();
+</script>
 
-    function napThe() {
-      let seri = document.getElementById('seri').value;
-      let mathe = document.getElementById('mathe').value;
-      let gt = parseInt(document.getElementById('giatri').value);
-      let u = localStorage.getItem('currentUser');
-      if(u && seri && mathe && gt) {
-        let user = JSON.parse(localStorage.getItem('user_' + u));
-        user.balance += gt;
-        localStorage.setItem('user_' + u, JSON.stringify(user));
-        capNhatUser();
-        document.getElementById('tbthe').innerText = `Nạp thẻ thành công: +${gt}đ`;
-      } else {
-        document.getElementById('tbthe').innerText = 'Vui lòng nhập đầy đủ thông tin.';
-      }
-    }
-
-    capNhatUser();
-  </script>
 </body>
 </html>
