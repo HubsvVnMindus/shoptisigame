@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng nhập / Đăng ký - Shop Acc Roblox</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      width: 360px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #d81b60;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
+      border-color: #d81b60;
+      outline: none;
+    }
+    button {
+      background-color: #d81b60;
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #a31544;
+    }
+    .toggle-form {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle-form:hover {
+      color: #d81b60;
+      text-decoration: underline;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-box" id="login-box">
+
+  <h2 id="form-title">Đăng nhập</h2>
+
+  <form id="login-form">
+    <div class="error-message" id="error-msg-login"></div>
+    <label for="login-username">Tên đăng nhập hoặc email</label>
+    <input type="text" id="login-username" required />
+
+    <label for="login-password">Mật khẩu</label>
+    <input type="password" id="login-password" required />
+
+    <button type="submit">Đăng nhập</button>
+  </form>
+
+  <form id="register-form" style="display:none;">
+    <div class="error-message" id="error-msg-register"></div>
+    <label for="reg-username">Tên đăng nhập</label>
+    <input type="text" id="reg-username" required />
+
+    <label for="reg-email">Email</label>
+    <input type="email" id="reg-email" required />
+
+    <label for="reg-password">Mật khẩu</label>
+    <input type="password" id="reg-password" required />
+
+    <button type="submit">Đăng ký</button>
+  </form>
+
+  <div class="toggle-form" id="toggle-link">Bạn chưa có tài khoản? Đăng ký ngay</div>
+</div>
+
+<script>
+  const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
+  const toggleLink = document.getElementById('toggle-link');
+  const formTitle = document.getElementById('form-title');
+
+  const errorLogin = document.getElementById('error-msg-login');
+  const errorRegister = document.getElementById('error-msg-register');
+
+  toggleLink.addEventListener('click', () => {
+    if (loginForm.style.display !== 'none') {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'flex';
+      formTitle.textContent = 'Đăng ký';
+      toggleLink.textContent = 'Bạn đã có tài khoản? Đăng nhập ngay';
+      errorLogin.style.display = 'none';
+    } else {
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'flex';
+      formTitle.textContent = 'Đăng nhập';
+      toggleLink.textContent = 'Bạn chưa có tài khoản? Đăng ký ngay';
+      errorRegister.style.display = 'none';
+    }
+  });
+
+  // Giả lập database người dùng (dùng localStorage)
+  function getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+  function saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  registerForm.addEventListener('submit', e => {
+    e.preventDefault();
+    errorRegister.style.display = 'none';
+
+    const username = document.getElementById('reg-username').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value;
+
+    if (username.length < 4) {
+      errorRegister.textContent = 'Tên đăng nhập phải ít nhất 4 ký tự.';
+      errorRegister.style.display = 'block';
+      return;
+    }
+    if (password.length < 6) {
+      errorRegister.textContent = 'Mật khẩu phải ít nhất 6 ký tự.';
+      errorRegister.style.display = 'block';
+      return;
+    }
+    const users = getUsers();
+    if (users.find(u => u.username.toLowerCase() === username.toLowerCase())) {
+      errorRegister.textContent = 'Tên đăng nhập đã tồn tại.';
+      errorRegister.style.display = 'block';
+      return;
+    }
+    if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+      errorRegister.textContent = 'Email đã được sử dụng.';
+      errorRegister.style.display = 'block';
+      return;
+    }
+    users.push({ username, email, password });
+    saveUsers(users);
+    alert('Đăng ký thành công! Bạn có thể đăng nhập ngay.');
+    toggleLink.click();
+    registerForm.reset();
+  });
+
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    errorLogin.style.display = 'none';
+
+    const usernameInput = document.getElementById('login-username').value.trim();
+    const passwordInput = document.getElementById('login-password').value;
+
+    const users = getUsers();
+    const user = users.find(u =>
+      (u.username.toLowerCase() === usernameInput.toLowerCase() ||
+       u.email.toLowerCase() === usernameInput.toLowerCase()) &&
+       u.password === passwordInput
+    );
+
+    if (!user) {
+      errorLogin.textContent = 'Tên đăng nhập/email hoặc mật khẩu không đúng.';
+      errorLogin.style.display = 'block';
+      return;
+    }
+
+    // Lưu trạng thái đăng nhập (đơn giản)
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    alert(`Chào mừng ${user.username}, bạn đã đăng nhập thành công!`);
+    // Chuyển về trang chủ
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
