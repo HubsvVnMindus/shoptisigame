@@ -33,7 +33,7 @@
       border-radius: 6px;
       box-shadow: 0 3px 8px rgba(216,27,96,0.5);
     }
-    header .btn-login {
+    header .btn-login, header .btn-deposit {
       background: white;
       color: #d81b60;
       font-weight: 700;
@@ -42,8 +42,9 @@
       border-radius: 6px;
       cursor: pointer;
       transition: background-color 0.3s;
+      margin-left: 10px;
     }
-    header .btn-login:hover {
+    header .btn-login:hover, header .btn-deposit:hover {
       background: #fce4ec;
     }
     main {
@@ -101,7 +102,7 @@
       background: #a31544;
     }
 
-    /* Popup đăng nhập/đăng ký */
+    /* Popup đăng nhập/đăng ký/nạp tiền */
     .modal-bg {
       position: fixed;
       inset: 0;
@@ -138,7 +139,7 @@
       font-weight: 600;
       color: #333;
     }
-    .modal input {
+    .modal input, .modal select {
       padding: 10px 12px;
       margin-bottom: 18px;
       border: 1.5px solid #ccc;
@@ -146,7 +147,7 @@
       font-size: 1rem;
       transition: border-color 0.3s;
     }
-    .modal input:focus {
+    .modal input:focus, .modal select:focus {
       border-color: #d81b60;
       outline: none;
     }
@@ -203,7 +204,7 @@
       .modal {
         padding: 20px;
       }
-      .modal input {
+      .modal input, .modal select {
         font-size: 0.9rem;
       }
       main {
@@ -216,7 +217,7 @@
 
 <header>
   Shop Acc Roblox
-  <button class="btn-login" id="btnLoginOpen">Đăng nhập / Đăng ký</button>
+  <div id="header-right"></div>
 </header>
 
 <main id="product-list">
@@ -226,7 +227,7 @@
 <!-- Popup đăng nhập/đăng ký -->
 <div class="modal-bg" id="modalLogin">
   <div class="modal">
-    <button class="close-btn" id="btnCloseModal">&times;</button>
+    <button class="close-btn" id="btnCloseModal">×</button>
 
     <h2 id="modalTitle">Đăng nhập</h2>
 
@@ -239,7 +240,7 @@
       <button type="submit">Đăng nhập</button>
     </form>
 
-    <form id="formRegister" style="display:none;">
+    <form konc="formRegister" style="display:none;">
       <div class="error-msg" id="registerError"></div>
       <label for="regUser">Tên đăng nhập</label>
       <input type="text" id="regUser" required />
@@ -251,6 +252,49 @@
     </form>
 
     <div class="toggle-link" id="toggleLoginRegister">Bạn chưa có tài khoản? Đăng ký ngay</div>
+  </div>
+</div>
+
+<!-- Popup nạp tiền -->
+<div class="modal-bg" id="modalDeposit">
+  <div class="modal">
+    <button class="close-btn" id="btnCloseDepositModal">×</button>
+    <h2>Nạp tiền</h2>
+    <form id="formDeposit">
+      <div class="error-msg" id="depositError"></div>
+      <label for="depositMethod">Phương thức nạp</label>
+      <select id="depositMethod" required>
+        <option value="bank">Ngân hàng</option>
+        <option value="card">Thẻ cào</option>
+      </select>
+      <div id="bankFields">
+        <label for="bankName">Ngân hàng</label>
+        <select id="bankName" required>
+          <option value="">Chọn ngân hàng</option>
+          <option value="Vietcombank">Vietcombank</option>
+          <option value="Techcombank">Techcombank</option>
+          <option value="MBBank">MB Bank</option>
+        </select>
+        <label for="bankAccount">Số tài khoản</label>
+        <input type="text" id="bankAccount" required />
+      </div>
+      <div id="cardFields" style="display:none;">
+        <label for="cardType">Loại thẻ</label>
+        <select id="cardType" required>
+          <option value="">Chọn loại thẻ</option>
+          <option value="Viettel">Viettel</option>
+          <option value="Mobifone">Mobifone</option>
+          <option value="Vinaphone">Vinaphone</option>
+        </select>
+        <label for="cardNumber">Mã thẻ</label>
+        <input type="text" id="cardNumber" required />
+        <label for="cardSerial">Số serial</label>
+        <input type="text" id="cardSerial" required />
+      </div>
+      <label for="depositAmount">Số tiền (VNĐ)</label>
+      <input type="number" id="depositAmount" min="10000" required />
+      <button type="submit">Nạp tiền</button>
+    </form>
   </div>
 </div>
 
@@ -286,14 +330,21 @@
   const modalLogin = document.getElementById('modalLogin');
   const btnLoginOpen = document.getElementById('btnLoginOpen');
   const btnCloseModal = document.getElementById('btnCloseModal');
-
   const formLogin = document.getElementById('formLogin');
   const formRegister = document.getElementById('formRegister');
   const toggleLoginRegister = document.getElementById('toggleLoginRegister');
   const modalTitle = document.getElementById('modalTitle');
-
   const loginError = document.getElementById('loginError');
   const registerError = document.getElementById('registerError');
+
+  // Nạp tiền popup
+  const modalDeposit = document.getElementById('modalDeposit');
+  const btnCloseDepositModal = document.getElementById('btnCloseDepositModal');
+  const formDeposit = document.getElementById('formDeposit');
+  const depositError = document.getElementById('depositError');
+  const depositMethod = document.getElementById('depositMethod');
+  const bankFields = document.getElementById('bankFields');
+  const cardFields = document.getElementById('cardFields');
 
   btnLoginOpen.onclick = () => {
     modalLogin.classList.add('active');
@@ -302,6 +353,11 @@
   btnCloseModal.onclick = () => {
     modalLogin.classList.remove('active');
     clearErrors();
+  }
+  btnCloseDepositModal.onclick = () => {
+    modalDeposit.classList.remove('active');
+    clearErrors();
+    formDeposit.reset();
   }
 
   toggleLoginRegister.onclick = () => {
@@ -328,6 +384,7 @@
   function clearErrors(){
     loginError.style.display = 'none';
     registerError.style.display = 'none';
+    depositError.style.display = 'none';
   }
 
   // Quản lý user localStorage
@@ -336,6 +393,19 @@
   }
   function saveUsers(users){
     localStorage.setItem('users', JSON.stringify(users));
+  }
+  function getUserBalance(username){
+    const users = getUsers();
+    const user = users.find(u => u.username === username);
+    return user ? (user.balance || 0) : 0;
+  }
+  function updateUserBalance(username, amount){
+    const users = getUsers();
+    const user = users.find(u => u.username === username);
+    if(user){
+      user.balance = (user.balance || 0) + amount;
+      saveUsers(users);
+    }
   }
 
   // Đăng ký
@@ -369,7 +439,7 @@
       return;
     }
 
-    users.push({username, email, password});
+    users.push({username, email, password, balance: 0});
     saveUsers(users);
     alert('Đăng ký thành công! Vui lòng đăng nhập.');
     showLoginForm();
@@ -402,52 +472,133 @@
     updateHeaderUser();
   });
 
-  // Hiển thị tên user đăng nhập trên header & nút đăng xuất
-  const header = document.querySelector('header');
+  // Hiển thị tên user và số dư
+  const headerRight = document.getElementById('header-right');
   function updateHeaderUser(){
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    headerRight.innerHTML = '';
     if(loggedInUser){
       btnLoginOpen.style.display = 'none';
-      let userDiv = document.getElementById('userDisplay');
-      if(!userDiv){
-        userDiv = document.createElement('div');
-        userDiv.id = 'userDisplay';
-        userDiv.style.color = 'white';
-        userDiv.style.fontWeight = '600';
-        userDiv.style.cursor = 'default';
-        userDiv.style.userSelect = 'none';
+      let userDiv = document.createElement('div');
+      userDiv.id = 'userDisplay';
+      userDiv.style.color = 'white';
+      userDiv.style.fontWeight = '600';
+      userDiv.style.cursor = 'default';
+      userDiv.style.userSelect = 'none';
+      userDiv.style.display = 'flex';
+      userDiv.style.alignItems = 'center';
 
-        const logoutBtn = document.createElement('button');
-        logoutBtn.textContent = 'Đăng xuất';
-        logoutBtn.style.marginLeft = '15px';
-        logoutBtn.style.padding = '6px 12px';
-        logoutBtn.style.borderRadius = '6px';
-        logoutBtn.style.border = 'none';
-        logoutBtn.style.cursor = 'pointer';
-        logoutBtn.style.fontWeight = '700';
-        logoutBtn.style.background = 'white';
-        logoutBtn.style.color = '#d81b60';
-        logoutBtn.style.transition = 'background-color 0.3s';
-        logoutBtn.onmouseover = () => logoutBtn.style.background = '#fce4ec';
-        logoutBtn.onmouseout = () => logoutBtn.style.background = 'white';
-        logoutBtn.onclick = () => {
-          localStorage.removeItem('loggedInUser');
-          location.reload();
-        };
+      const balanceSpan = document.createElement('span');
+      balanceSpan.textContent = `Số dư: ${getUserBalance(loggedInUser.username).toLocaleString()} VNĐ`;
+      balanceSpan.style.marginRight = '15px';
 
-        userDiv.textContent = `Xin chào, ${loggedInUser.username}`;
-        userDiv.appendChild(logoutBtn);
-        header.appendChild(userDiv);
-      }
+      const depositBtn = document.createElement('button');
+      depositBtn.className = 'btn-deposit';
+      depositBtn.textContent = 'Nạp tiền';
+      depositBtn.onclick = () => {
+        modalDeposit.classList.add('active');
+      };
+
+      const logoutBtn = document.createElement('button');
+      logoutBtn.textContent = 'Đăng xuất';
+      logoutBtn.style.marginLeft = '15px';
+      logoutBtn.style.padding = '6px 12px';
+      logoutBtn.style.borderRadius = '6px';
+      logoutBtn.style.border = 'none';
+      logoutBtn.style.cursor = 'pointer';
+      logoutBtn.style.fontWeight = '700';
+      logoutBtn.style.background = 'white';
+      logoutBtn.style.color = '#d81b60';
+      logoutBtn.style.transition = 'background-color 0.3s';
+      logoutBtn.onmouseover = () => logoutBtn.style.background = '#fce4ec';
+      logoutBtn.onmouseout = () => logoutBtn.style.background = 'white';
+      logoutBtn.onclick = () => {
+        localStorage.removeItem('loggedInUser');
+        location.reload();
+      };
+
+      userDiv.textContent = `Xin chào, ${loggedInUser.username} | `;
+      userDiv.appendChild(balanceSpan);
+      userDiv.appendChild(depositBtn);
+      userDiv.appendChild(logoutBtn);
+      headerRight.appendChild(userDiv);
     } else {
       btnLoginOpen.style.display = 'inline-block';
-      const userDiv = document.getElementById('userDisplay');
-      if(userDiv) userDiv.remove();
     }
   }
   updateHeaderUser();
 
-  // Mua hàng
+  // Xử lý nạp tiền
+  depositMethod.onchange = () => {
+    if(depositMethod.value === 'bank'){
+      bankFields.style.display = 'block';
+      cardFields.style.display = 'none';
+      bankFields.querySelectorAll('input, select').forEach(el => el.required = true);
+      cardFields.querySelectorAll('input, select').forEach(el => el.required = false);
+    } else {
+      bankFields.style.display = 'none';
+      cardFields.style.display = 'block';
+      bankFields.querySelectorAll('input, select').forEach(el => el.required = false);
+      cardFields.querySelectorAll('input, select').forEach(el => el.required = true);
+    }
+  };
+
+  formDeposit.addEventListener('submit', e => {
+    e.preventDefault();
+    depositError.style.display = 'none';
+
+    const method = depositMethod.value;
+    const amount = parseInt(document.getElementById('depositAmount').value);
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    if(!loggedInUser){
+      depositError.textContent = 'Vui lòng đăng nhập để nạp tiền.';
+      depositError.style.display = 'block';
+      return;
+    }
+    if(amount < 10000){
+      depositError.textContent = 'Số tiền nạp tối thiểu là 10,000 VNĐ.';
+      depositError.style.display = 'block';
+      return;
+    }
+
+    if(method === 'bank'){
+      const bankName = document.getElementById('bankName').value;
+      const bankAccount = document.getElementById('bankAccount').value.trim();
+      if(!bankName || !bankAccount){
+        depositError.textContent = 'Vui lòng nhập đầy đủ thông tin ngân hàng.';
+        depositError.style.display = 'block';
+        return;
+      }
+      // Giả lập xác nhận nạp tiền qua ngân hàng
+      if(confirm(`Xác nhận nạp ${amount.toLocaleString()} VNĐ qua ngân hàng ${bankName}?`)){
+        updateUserBalance(loggedInUser.username, amount);
+        alert(`Nạp ${amount.toLocaleString()} VNĐ thành công qua ngân hàng!`);
+        modalDeposit.classList.remove('active');
+        formDeposit.reset();
+        updateHeaderUser();
+      }
+    } else if(method === 'card'){
+      const cardType = document.getElementById('cardType').value;
+      const cardNumber = document.getElementById('cardNumber').value.trim();
+      const cardSerial = document.getElementById('cardSerial').value.trim();
+      if(!cardType || !cardNumber || !cardSerial){
+        depositError.textContent = 'V jugu lòng nhập đầy đủ thông tin thẻ cào.';
+        depositError.style.display = 'block';
+        return;
+      }
+      // Giả lập xác nhận nạp tiền qua thẻ cào
+      if(confirm(`Xác nhận nạp ${amount.toLocaleString()} VNĐ qua thẻ ${cardType}?`)){
+        updateUserBalance(loggedInUser.username, amount);
+        alert(`Nạp ${amount.toLocaleString()} VNĐ thành công qua thẻ cào!`);
+        modalDeposit.classList.remove('active');
+        formDeposit.reset();
+        updateHeaderUser();
+      }
+    }
+  });
+
+  // Mua hàng với số dư
   productList.addEventListener('click', e => {
     if(e.target.classList.contains('buy-btn')){
       const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -460,10 +611,17 @@
       const productId = parseInt(e.target.dataset.id);
       const product = products.find(p => p.id === productId);
       if(product){
-        // Demo thanh toán: hiện popup hoặc alert
+        const balance = getUserBalance(loggedInUser.username);
+        if(balance < product.price){
+          alert(`Số dư không đủ! Vui lòng nạp thêm tiền. Số dư hiện tại: ${balance.toLocaleString()} VNĐ`);
+          modalDeposit.classList.add('active');
+          return;
+        }
         if(confirm(`Bạn muốn mua "${product.name}" với giá ${product.price.toLocaleString()} VNĐ?`)){
+          updateUserBalance(loggedInUser.username, -product.price);
           alert(`Cảm ơn bạn đã mua sản phẩm "${product.name}"!`);
-          // Thêm logic thanh toán, lưu đơn hàng ở đây
+          updateHeaderUser();
+          // Thêm logic lưu đơn hàng ở đây nếu cần
         }
       }
     }
@@ -471,4 +629,4 @@
 </script>
 
 </body>
-</html>
+          </html>
