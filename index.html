@@ -2,9 +2,20 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shop Acc Roblox</title>
-  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f4f4; }
+    header { background: #111; color: #fff; padding: 20px; text-align: center; }
+    nav a { color: #fff; margin: 0 15px; text-decoration: none; }
+    .banner, .product-section, .contact, footer { padding: 20px; text-align: center; }
+    .product-card, .recharge-box, .auth-box { background: #fff; padding: 15px; margin: 10px auto; max-width: 400px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    .pay-button, button { display: inline-block; padding: 8px 15px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+    .pay-button { background: #d81b60; color: #fff; text-decoration: none; }
+    .zalo { background: #0088ff; }
+    input, select { width: 90%; padding: 10px; margin: 5px auto; border: 1px solid #ccc; border-radius: 5px; }
+    #balance { font-weight: bold; color: green; }
+  </style>
 </head>
 <body>
   <header>
@@ -12,111 +23,132 @@
     <nav>
       <a href="#">Trang chủ</a>
       <a href="#roblox">Roblox</a>
-      <a href="#other">Khác</a>
-      <a href="#nap-tien">Nạp tiền</a>
-      <a href="#lienhe">Liên hệ</a>
+      <a href="#nap">Nạp tiền</a>
+      <a href="#auth">Đăng nhập / Đăng ký</a>
     </nav>
+    <div id="user-panel"></div>
   </header>
 
-  <section class="banner">
-    <h2>Chào mừng đến với shop!</h2>
-    <p>Uy tín - Giá rẻ - Tự động 24/7</p>
-  </section>
-
   <section id="roblox" class="product-section">
-    <h2>Tài khoản Roblox</h2>
-    <div class="product-list">
-      <div class="product-card">
-        <h3>Acc Roblox #001</h3>
-        <p>Level cao, nhiều đồ VIP</p>
-        <span>Giá: 100.000đ</span><br/>
-        <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
-        <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
-      </div>
-      <div class="product-card">
-        <h3>Acc Roblox #002</h3>
-        <p>Acc full đồ</p>
-        <span>Giá: 150.000đ</span><br/>
-        <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
-        <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
-      </div>
+    <h2>ACC ROBLOX</h2>
+    <div class="product-card">
+      <h3>Acc #001</h3><p>VIP - 100.000đ</p>
+      <a class="pay-button" href="#nap">Mua bằng Momo</a>
     </div>
   </section>
 
-  <section id="other" class="product-section">
-    <h2>Sản phẩm khác</h2>
-    <div class="product-list">
-      <div class="product-card">
-        <h3>Acc Minecraft PE</h3>
-        <p>Đăng nhập được</p>
-        <span>Giá: 70.000đ</span><br/>
-        <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
-        <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
-      </div>
-      <div class="product-card">
-        <h3>Key Tool</h3>
-        <p>Auto tool hỗ trợ</p>
-        <span>Giá: 50.000đ</span><br/>
-        <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
-        <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="nap-tien" class="product-section">
-    <h2>Nạp Tiền Vào Tài Khoản</h2>
+  <section id="nap" class="product-section">
+    <h2>Nạp tiền (Momo / ZaloPay)</h2>
     <div class="recharge-box">
-      <p>Chọn số tiền bạn muốn nạp:</p>
       <select id="amount">
         <option value="10000">10.000đ</option>
-        <option value="20000">20.000đ</option>
         <option value="50000">50.000đ</option>
         <option value="100000">100.000đ</option>
-        <option value="200000">200.000đ</option>
-        <option value="300000">300.000đ</option>
-        <option value="500000">500.000đ</option>
       </select>
-
-      <p>Chuyển khoản đến:</p>
-      <ul>
-        <li><strong>Momo:</strong> 0123456789 (Nguyen Van A)</li>
-        <li><strong>ZaloPay:</strong> 0123456789</li>
-      </ul>
-
-      <p>Nội dung chuyển khoản: <strong>NAP-SDT-CUA-BAN</strong></p>
-
-      <label>Nhập mã giao dịch sau khi chuyển:</label><br/>
-      <input type="text" id="madon" placeholder="Mã giao dịch / UID" />
+      <p>Chuyển khoản đến Momo/ZaloPay: 0123456789</p>
+      <p>Nội dung: NAP-[SĐT]</p>
+      <input id="madon" placeholder="Mã giao dịch" />
       <button onclick="guiMa()">Gửi xác nhận</button>
       <p id="thongbao"></p>
     </div>
+
+    <h2>Nạp Thẻ Cào</h2>
+    <div class="recharge-box">
+      <select id="nhamang">
+        <option value="Viettel">Viettel</option>
+        <option value="Vinaphone">Vinaphone</option>
+        <option value="Mobifone">Mobifone</option>
+      </select>
+      <input id="seri" placeholder="Seri" />
+      <input id="mathe" placeholder="Mã thẻ" />
+      <input id="giatri" placeholder="Mệnh giá (VD: 100000)" />
+      <button onclick="napThe()">Nạp thẻ</button>
+      <p id="tbthe"></p>
+    </div>
   </section>
 
-  <section id="lienhe" class="contact">
-    <h2>Liên hệ</h2>
-    <p>Zalo: 0123456789</p>
-    <p>Telegram: @ten_cua_ban</p>
+  <section id="auth" class="product-section">
+    <h2>Đăng nhập / Đăng ký</h2>
+    <div class="auth-box">
+      <input id="username" placeholder="Tên đăng nhập" />
+      <input id="password" type="password" placeholder="Mật khẩu" />
+      <button onclick="dangKy()">Đăng ký</button>
+      <button onclick="dangNhap()">Đăng nhập</button>
+      <p id="thongbaoAuth"></p>
+    </div>
   </section>
 
-  <footer>
-    <p>&copy; 2025 Shop Acc Roblox - All rights reserved.</p>
-  </footer>
+  <footer><p>&copy; 2025 Shop Acc Roblox</p></footer>
 
   <script>
-    function guiMa() {
-      const madon = document.getElementById("madon").value.trim();
-      const amount = document.getElementById("amount").value;
-
-      if (madon === "") {
-        document.getElementById("thongbao").innerText = "Vui lòng nhập mã giao dịch.";
-        return;
+    function dangKy() {
+      let u = document.getElementById('username').value;
+      let p = document.getElementById('password').value;
+      if(localStorage.getItem('user_' + u)) {
+        document.getElementById('thongbaoAuth').innerText = 'Tài khoản đã tồn tại!';
+      } else {
+        localStorage.setItem('user_' + u, JSON.stringify({ password: p, balance: 0 }));
+        document.getElementById('thongbaoAuth').innerText = 'Đăng ký thành công!';
       }
-
-      document.getElementById("thongbao").innerHTML =
-        `Đã gửi yêu cầu xác nhận giao dịch <strong>${madon}</strong> với số tiền <strong>${amount}đ</strong>. Vui lòng chờ admin kiểm tra.`;
-
-      document.getElementById("madon").value = "";
     }
+
+    function dangNhap() {
+      let u = document.getElementById('username').value;
+      let p = document.getElementById('password').value;
+      let data = localStorage.getItem('user_' + u);
+      if(data) {
+        let obj = JSON.parse(data);
+        if(obj.password === p) {
+          localStorage.setItem('currentUser', u);
+          capNhatUser();
+        } else {
+          document.getElementById('thongbaoAuth').innerText = 'Sai mật khẩu!';
+        }
+      } else {
+        document.getElementById('thongbaoAuth').innerText = 'Không tìm thấy tài khoản!';
+      }
+    }
+
+    function capNhatUser() {
+      let u = localStorage.getItem('currentUser');
+      if(u) {
+        let data = JSON.parse(localStorage.getItem('user_' + u));
+        document.getElementById('user-panel').innerHTML = `Xin chào, <strong>${u}</strong> | Số dư: <span id="balance">${data.balance}đ</span>`;
+      }
+    }
+
+    function guiMa() {
+      let ma = document.getElementById('madon').value;
+      let tien = parseInt(document.getElementById('amount').value);
+      let u = localStorage.getItem('currentUser');
+      if(u) {
+        let user = JSON.parse(localStorage.getItem('user_' + u));
+        user.balance += tien;
+        localStorage.setItem('user_' + u, JSON.stringify(user));
+        capNhatUser();
+        document.getElementById('thongbao').innerText = `Đã cộng ${tien}đ vào tài khoản!`;
+      } else {
+        document.getElementById('thongbao').innerText = 'Bạn cần đăng nhập trước.';
+      }
+    }
+
+    function napThe() {
+      let seri = document.getElementById('seri').value;
+      let mathe = document.getElementById('mathe').value;
+      let gt = parseInt(document.getElementById('giatri').value);
+      let u = localStorage.getItem('currentUser');
+      if(u && seri && mathe && gt) {
+        let user = JSON.parse(localStorage.getItem('user_' + u));
+        user.balance += gt;
+        localStorage.setItem('user_' + u, JSON.stringify(user));
+        capNhatUser();
+        document.getElementById('tbthe').innerText = `Nạp thẻ thành công: +${gt}đ`;
+      } else {
+        document.getElementById('tbthe').innerText = 'Vui lòng nhập đầy đủ thông tin.';
+      }
+    }
+
+    capNhatUser();
   </script>
 </body>
 </html>
