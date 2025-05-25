@@ -3,149 +3,211 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop Acc Roblox</title>
+  <title>Shop Acc Roblox - Mua acc & sản phẩm</title>
   <style>
+    /* Reset & chung */
     * {
       box-sizing: border-box;
+      margin: 0; padding: 0;
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; background: #f5f5f7;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
     }
     header {
-      background-color: #202020;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header h1 {
-      margin: 0;
-      font-weight: 700;
-      font-size: 24px;
-      cursor: pointer;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    nav a:hover {
-      color: #d81b60;
-    }
-    .banner {
-      background: url('https://cdn.wallpapersafari.com/84/40/qzvVEl.jpg') center/cover no-repeat;
-      height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-shadow: 0 0 10px rgba(0,0,0,0.7);
-      font-size: 32px;
-      font-weight: 700;
-    }
-    main {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
-    .filter-bar {
-      margin-bottom: 25px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .filter-bar select {
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      min-width: 150px;
-      font-size: 14px;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
-      gap: 20px;
-    }
-    .product-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 3px 7px rgb(0 0 0 / 0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease;
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgb(216 27 96 / 0.3);
-    }
-    .product-img {
       width: 100%;
-      height: 140px;
-      object-fit: cover;
-      background: #eee;
-    }
-    .product-info {
-      padding: 15px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #222;
-    }
-    .product-desc {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 10px;
-      flex-grow: 1;
-    }
-    .product-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: #d81b60;
-      margin-bottom: 15px;
-    }
-    .btn-buy {
-      background-color: #d81b60;
-      border: none;
+      max-width: 1200px;
+      background: #d81b60;
       color: white;
-      padding: 12px 0;
+      padding: 15px 20px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px rgba(216,27,96,0.5);
+    }
+    header .btn-login {
+      background: white;
+      color: #d81b60;
+      font-weight: 700;
+      border: none;
+      padding: 8px 14px;
       border-radius: 6px;
       cursor: pointer;
-      font-weight: 700;
       transition: background-color 0.3s;
     }
-    .btn-buy:hover {
-      background-color: #a31544;
+    header .btn-login:hover {
+      background: #fce4ec;
     }
-    footer {
-      background: #202020;
-      color: #bbb;
+    main {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 18px;
+      padding-bottom: 40px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgb(216 27 96 / 0.3);
+    }
+    .card h3 {
+      color: #d81b60;
+      margin-bottom: 10px;
+    }
+    .card p {
+      flex-grow: 1;
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+    .card .price {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #d81b60;
+      margin-bottom: 12px;
+    }
+    .card button.buy-btn {
+      background: #d81b60;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 12px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1rem;
+    }
+    .card button.buy-btn:hover {
+      background: #a31544;
+    }
+
+    /* Popup đăng nhập/đăng ký */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 15px;
+    }
+    .modal-bg.active {
+      display: flex;
+    }
+    .modal {
+      background: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      padding: 25px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    .modal h2 {
+      color: #d81b60;
+      margin-bottom: 22px;
       text-align: center;
-      padding: 15px 10px;
-      margin-top: 40px;
-      font-size: 14px;
     }
+    .modal form {
+      display: flex;
+      flex-direction: column;
+    }
+    .modal label {
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #333;
+    }
+    .modal input {
+      padding: 10px 12px;
+      margin-bottom: 18px;
+      border: 1.5px solid #ccc;
+      border-radius: 7px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    .modal input:focus {
+      border-color: #d81b60;
+      outline: none;
+    }
+    .modal button {
+      background: #d81b60;
+      color: white;
+      font-weight: 700;
+      padding: 12px 0;
+      border-radius: 7px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s;
+    }
+    .modal button:hover {
+      background: #a31544;
+    }
+    .modal .toggle-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #555;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+    }
+    .modal .toggle-link:hover {
+      color: #d81b60;
+      text-decoration: underline;
+    }
+    .modal .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #d81b60;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .error-msg {
+      color: red;
+      font-size: 0.85rem;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    /* Responsive */
     @media (max-width: 480px) {
       header {
-        flex-direction: column;
-        gap: 10px;
+        font-size: 1.2rem;
+        padding: 12px 15px;
       }
-      .filter-bar {
-        flex-direction: column;
+      .modal {
+        padding: 20px;
+      }
+      .modal input {
+        font-size: 0.9rem;
+      }
+      main {
+        gap: 14px;
       }
     }
   </style>
@@ -153,139 +215,259 @@
 <body>
 
 <header>
-  <h1>Shop Acc Roblox</h1>
-  <nav>
-    <a href="#">Trang chủ</a>
-    <a href="#products">Sản phẩm</a>
-    <a href="#nap-tien">Nạp tiền</a>
-    <a href="#login" onclick="alert('Chức năng đăng nhập sẽ được cập nhật!')">Đăng nhập</a>
-  </nav>
+  Shop Acc Roblox
+  <button class="btn-login" id="btnLoginOpen">Đăng nhập / Đăng ký</button>
 </header>
 
-<section class="banner">
-  Shop Acc Roblox Uy Tín - Giá Rẻ - Bảo Mật Cao
-</section>
-
-<main>
-  <div class="filter-bar">
-    <select id="filter-type" onchange="filterProducts()">
-      <option value="all">Tất cả loại tài khoản</option>
-      <option value="random">Random</option>
-      <option value="vip">VIP</option>
-      <option value="thuong">Thường</option>
-    </select>
-
-    <select id="filter-price" onchange="filterProducts()">
-      <option value="all">Tất cả giá</option>
-      <option value="0-10000">Dưới 10.000đ</option>
-      <option value="10000-50000">10.000đ - 50.000đ</option>
-      <option value="50000-100000">50.000đ - 100.000đ</option>
-      <option value="100000-500000">100.000đ - 500.000đ</option>
-      <option value="500000-99999999">Trên 500.000đ</option>
-    </select>
-  </div>
-
-  <section id="products" class="products">
-    <!-- Sản phẩm sẽ được đổ bằng JS -->
-  </section>
+<main id="product-list">
+  <!-- Sản phẩm mẫu -->
 </main>
 
-<footer>
-  &copy; 2025 Shop Acc Roblox. Bản quyền thuộc về bạn.
-</footer>
+<!-- Popup đăng nhập/đăng ký -->
+<div class="modal-bg" id="modalLogin">
+  <div class="modal">
+    <button class="close-btn" id="btnCloseModal">&times;</button>
+
+    <h2 id="modalTitle">Đăng nhập</h2>
+
+    <form id="formLogin">
+      <div class="error-msg" id="loginError"></div>
+      <label for="loginUser">Tên đăng nhập hoặc email</label>
+      <input type="text" id="loginUser" required />
+      <label for="loginPass">Mật khẩu</label>
+      <input type="password" id="loginPass" required />
+      <button type="submit">Đăng nhập</button>
+    </form>
+
+    <form id="formRegister" style="display:none;">
+      <div class="error-msg" id="registerError"></div>
+      <label for="regUser">Tên đăng nhập</label>
+      <input type="text" id="regUser" required />
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" required />
+      <label for="regPass">Mật khẩu</label>
+      <input type="password" id="regPass" required />
+      <button type="submit">Đăng ký</button>
+    </form>
+
+    <div class="toggle-link" id="toggleLoginRegister">Bạn chưa có tài khoản? Đăng ký ngay</div>
+  </div>
+</div>
 
 <script>
-  // Danh sách sản phẩm demo
+  // Sản phẩm mẫu
   const products = [
-    {
-      id: 1,
-      type: 'random',
-      title: 'Acc Roblox Random #001',
-      desc: 'Tài khoản ngẫu nhiên, giá rẻ cho người mới.',
-      price: 15000,
-      img: 'https://cdn-icons-png.flaticon.com/512/5968/5968885.png'
-    },
-    {
-      id: 2,
-      type: 'vip',
-      title: 'Acc Roblox VIP #A10',
-      desc: 'Tài khoản VIP với nhiều item giá trị.',
-      price: 200000,
-      img: 'https://cdn-icons-png.flaticon.com/512/1995/1995532.png'
-    },
-    {
-      id: 3,
-      type: 'thuong',
-      title: 'Acc Roblox Thường #015',
-      desc: 'Tài khoản cơ bản, giá hợp lý.',
-      price: 50000,
-      img: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'
-    },
-    {
-      id: 4,
-      type: 'vip',
-      title: 'Acc Roblox VIP #B07',
-      desc: 'Tài khoản VIP có nhiều skin độc đáo.',
-      price: 350000,
-      img: 'https://cdn-icons-png.flaticon.com/512/1995/1995532.png'
-    },
-    {
-      id: 5,
-      type: 'random',
-      title: 'Acc Roblox Random #013',
-      desc: 'Tài khoản ngẫu nhiên giá tốt, uy tín.',
-      price: 10000,
-      img: 'https://cdn-icons-png.flaticon.com/512/5968/5968885.png'
-    }
+    {id: 1, name: "Acc Roblox VIP", desc: "Tài khoản Roblox VIP với nhiều item hiếm.", price: 500000},
+    {id: 2, name: "Acc Roblox Thường", desc: "Tài khoản Roblox phổ biến, dễ sử dụng.", price: 100000},
+    {id: 3, name: "Acc Roblox Giá Rẻ", desc: "Tài khoản giá rẻ, phù hợp cho người mới.", price: 10000},
+    {id: 4, name: "Gift Card Roblox", desc: "Mã thẻ quà tặng Roblox giá trị.", price: 200000},
+    {id: 5, name: "Thẻ Nạp Momo", desc: "Nạp tiền tự động qua Momo.", price: 50000}
   ];
 
-  function formatCurrency(n) {
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
-  }
-
-  function renderProducts(list) {
-    const container = document.getElementById('products');
-    container.innerHTML = '';
-    if(list.length === 0) {
-      container.innerHTML = '<p>Không có sản phẩm phù hợp.</p>';
-      return;
-    }
-    list.forEach(p => {
+  // Hiển thị sản phẩm
+  const productList = document.getElementById('product-list');
+  function showProducts(){
+    productList.innerHTML = '';
+    products.forEach(p => {
       const card = document.createElement('div');
-      card.className = 'product-card';
+      card.className = 'card';
       card.innerHTML = `
-        <img class="product-img" src="${p.img}" alt="${p.title}" />
-        <div class="product-info">
-          <div class="product-title">${p.title}</div>
-          <div class="product-desc">${p.desc}</div>
-          <div class="product-price">${formatCurrency(p.price)}</div>
-          <button class="btn-buy" onclick="alert('Bạn cần đăng nhập để mua sản phẩm này!')">Mua ngay</button>
-        </div>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="price">${p.price.toLocaleString()} VNĐ</div>
+        <button class="buy-btn" data-id="${p.id}">Mua ngay</button>
       `;
-      container.appendChild(card);
+      productList.appendChild(card);
     });
   }
+  showProducts();
 
-  function filterProducts() {
-    const typeFilter = document.getElementById('filter-type').value;
-    const priceFilter = document.getElementById('filter-price').value;
+  // Đăng nhập / đăng ký popup
+  const modalLogin = document.getElementById('modalLogin');
+  const btnLoginOpen = document.getElementById('btnLoginOpen');
+  const btnCloseModal = document.getElementById('btnCloseModal');
 
-    let filtered = products;
+  const formLogin = document.getElementById('formLogin');
+  const formRegister = document.getElementById('formRegister');
+  const toggleLoginRegister = document.getElementById('toggleLoginRegister');
+  const modalTitle = document.getElementById('modalTitle');
 
-    if(typeFilter !== 'all') {
-      filtered = filtered.filter(p => p.type === typeFilter);
-    }
+  const loginError = document.getElementById('loginError');
+  const registerError = document.getElementById('registerError');
 
-    if(priceFilter !== 'all') {
-      const [min, max] = priceFilter.split('-').map(x => parseInt(x));
-      filtered = filtered.filter(p => p.price >= min && p.price <= max);
-    }
-
-    renderProducts(filtered);
+  btnLoginOpen.onclick = () => {
+    modalLogin.classList.add('active');
+    showLoginForm();
+  }
+  btnCloseModal.onclick = () => {
+    modalLogin.classList.remove('active');
+    clearErrors();
   }
 
-  // Lần đầu load trang show tất cả sản phẩm
-  filterProducts();
+  toggleLoginRegister.onclick = () => {
+    if(formLogin.style.display !== 'none'){
+      showRegisterForm();
+    } else {
+      showLoginForm();
+    }
+    clearErrors();
+  }
+
+  function showLoginForm(){
+    formLogin.style.display = 'flex';
+    formRegister.style.display = 'none';
+    modalTitle.textContent = 'Đăng nhập';
+    toggleLoginRegister.textContent = 'Bạn chưa có tài khoản? Đăng ký ngay';
+  }
+  function showRegisterForm(){
+    formLogin.style.display = 'none';
+    formRegister.style.display = 'flex';
+    modalTitle.textContent = 'Đăng ký';
+    toggleLoginRegister.textContent = 'Bạn đã có tài khoản? Đăng nhập ngay';
+  }
+  function clearErrors(){
+    loginError.style.display = 'none';
+    registerError.style.display = 'none';
+  }
+
+  // Quản lý user localStorage
+  function getUsers(){
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+  function saveUsers(users){
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  // Đăng ký
+  formRegister.addEventListener('submit', e => {
+    e.preventDefault();
+    registerError.style.display = 'none';
+
+    const username = document.getElementById('regUser').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPass').value;
+
+    if(username.length < 4){
+      registerError.textContent = 'Tên đăng nhập phải ít nhất 4 ký tự.';
+      registerError.style.display = 'block';
+      return;
+    }
+    if(password.length < 6){
+      registerError.textContent = 'Mật khẩu phải ít nhất 6 ký tự.';
+      registerError.style.display = 'block';
+      return;
+    }
+    const users = getUsers();
+    if(users.find(u => u.username.toLowerCase() === username.toLowerCase())){
+      registerError.textContent = 'Tên đăng nhập đã tồn tại.';
+      registerError.style.display = 'block';
+      return;
+    }
+    if(users.find(u => u.email.toLowerCase() === email.toLowerCase())){
+      registerError.textContent = 'Email đã được sử dụng.';
+      registerError.style.display = 'block';
+      return;
+    }
+
+    users.push({username, email, password});
+    saveUsers(users);
+    alert('Đăng ký thành công! Vui lòng đăng nhập.');
+    showLoginForm();
+    formRegister.reset();
+  });
+
+  // Đăng nhập
+  formLogin.addEventListener('submit', e => {
+    e.preventDefault();
+    loginError.style.display = 'none';
+
+    const usernameOrEmail = document.getElementById('loginUser').value.trim();
+    const password = document.getElementById('loginPass').value;
+    const users = getUsers();
+
+    const user = users.find(u =>
+      (u.username.toLowerCase() === usernameOrEmail.toLowerCase() ||
+       u.email.toLowerCase() === usernameOrEmail.toLowerCase())
+      && u.password === password
+    );
+    if(!user){
+      loginError.textContent = 'Tên đăng nhập/email hoặc mật khẩu không đúng.';
+      loginError.style.display = 'block';
+      return;
+    }
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    alert(`Chào mừng ${user.username}, bạn đã đăng nhập thành công!`);
+    modalLogin.classList.remove('active');
+    formLogin.reset();
+    updateHeaderUser();
+  });
+
+  // Hiển thị tên user đăng nhập trên header & nút đăng xuất
+  const header = document.querySelector('header');
+  function updateHeaderUser(){
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if(loggedInUser){
+      btnLoginOpen.style.display = 'none';
+      let userDiv = document.getElementById('userDisplay');
+      if(!userDiv){
+        userDiv = document.createElement('div');
+        userDiv.id = 'userDisplay';
+        userDiv.style.color = 'white';
+        userDiv.style.fontWeight = '600';
+        userDiv.style.cursor = 'default';
+        userDiv.style.userSelect = 'none';
+
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = 'Đăng xuất';
+        logoutBtn.style.marginLeft = '15px';
+        logoutBtn.style.padding = '6px 12px';
+        logoutBtn.style.borderRadius = '6px';
+        logoutBtn.style.border = 'none';
+        logoutBtn.style.cursor = 'pointer';
+        logoutBtn.style.fontWeight = '700';
+        logoutBtn.style.background = 'white';
+        logoutBtn.style.color = '#d81b60';
+        logoutBtn.style.transition = 'background-color 0.3s';
+        logoutBtn.onmouseover = () => logoutBtn.style.background = '#fce4ec';
+        logoutBtn.onmouseout = () => logoutBtn.style.background = 'white';
+        logoutBtn.onclick = () => {
+          localStorage.removeItem('loggedInUser');
+          location.reload();
+        };
+
+        userDiv.textContent = `Xin chào, ${loggedInUser.username}`;
+        userDiv.appendChild(logoutBtn);
+        header.appendChild(userDiv);
+      }
+    } else {
+      btnLoginOpen.style.display = 'inline-block';
+      const userDiv = document.getElementById('userDisplay');
+      if(userDiv) userDiv.remove();
+    }
+  }
+  updateHeaderUser();
+
+  // Mua hàng
+  productList.addEventListener('click', e => {
+    if(e.target.classList.contains('buy-btn')){
+      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+      if(!loggedInUser){
+        alert('Bạn cần đăng nhập để mua hàng!');
+        modalLogin.classList.add('active');
+        showLoginForm();
+        return;
+      }
+      const productId = parseInt(e.target.dataset.id);
+      const product = products.find(p => p.id === productId);
+      if(product){
+        // Demo thanh toán: hiện popup hoặc alert
+        if(confirm(`Bạn muốn mua "${product.name}" với giá ${product.price.toLocaleString()} VNĐ?`)){
+          alert(`Cảm ơn bạn đã mua sản phẩm "${product.name}"!`);
+          // Thêm logic thanh toán, lưu đơn hàng ở đây
+        }
+      }
+    }
+  });
 </script>
 
 </body>
