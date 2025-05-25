@@ -12,7 +12,8 @@
     <nav>
       <a href="#">Trang chủ</a>
       <a href="#roblox">Roblox</a>
-      <a href="#other">Sản phẩm khác</a>
+      <a href="#other">Khác</a>
+      <a href="#nap-tien">Nạp tiền</a>
       <a href="#lienhe">Liên hệ</a>
     </nav>
   </header>
@@ -28,14 +29,14 @@
       <div class="product-card">
         <h3>Acc Roblox #001</h3>
         <p>Level cao, nhiều đồ VIP</p>
-        <span>Giá: 100K</span><br/>
+        <span>Giá: 100.000đ</span><br/>
         <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
         <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
       </div>
       <div class="product-card">
         <h3>Acc Roblox #002</h3>
         <p>Acc full đồ</p>
-        <span>Giá: 150K</span><br/>
+        <span>Giá: 150.000đ</span><br/>
         <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
         <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
       </div>
@@ -48,17 +49,46 @@
       <div class="product-card">
         <h3>Acc Minecraft PE</h3>
         <p>Đăng nhập được</p>
-        <span>Giá: 70K</span><br/>
+        <span>Giá: 70.000đ</span><br/>
         <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
         <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
       </div>
       <div class="product-card">
         <h3>Key Tool</h3>
-        <p>Dành cho auto tool</p>
-        <span>Giá: 50K</span><br/>
+        <p>Auto tool hỗ trợ</p>
+        <span>Giá: 50.000đ</span><br/>
         <a href="https://nhantien.momo.vn/0123456789" target="_blank" class="pay-button">Thanh toán Momo</a>
         <a href="https://zlp.com.vn/TENCUABAN" target="_blank" class="pay-button zalo">ZaloPay</a>
       </div>
+    </div>
+  </section>
+
+  <section id="nap-tien" class="product-section">
+    <h2>Nạp Tiền Vào Tài Khoản</h2>
+    <div class="recharge-box">
+      <p>Chọn số tiền bạn muốn nạp:</p>
+      <select id="amount">
+        <option value="10000">10.000đ</option>
+        <option value="20000">20.000đ</option>
+        <option value="50000">50.000đ</option>
+        <option value="100000">100.000đ</option>
+        <option value="200000">200.000đ</option>
+        <option value="300000">300.000đ</option>
+        <option value="500000">500.000đ</option>
+      </select>
+
+      <p>Chuyển khoản đến:</p>
+      <ul>
+        <li><strong>Momo:</strong> 0123456789 (Nguyen Van A)</li>
+        <li><strong>ZaloPay:</strong> 0123456789</li>
+      </ul>
+
+      <p>Nội dung chuyển khoản: <strong>NAP-SDT-CUA-BAN</strong></p>
+
+      <label>Nhập mã giao dịch sau khi chuyển:</label><br/>
+      <input type="text" id="madon" placeholder="Mã giao dịch / UID" />
+      <button onclick="guiMa()">Gửi xác nhận</button>
+      <p id="thongbao"></p>
     </div>
   </section>
 
@@ -71,5 +101,22 @@
   <footer>
     <p>&copy; 2025 Shop Acc Roblox - All rights reserved.</p>
   </footer>
+
+  <script>
+    function guiMa() {
+      const madon = document.getElementById("madon").value.trim();
+      const amount = document.getElementById("amount").value;
+
+      if (madon === "") {
+        document.getElementById("thongbao").innerText = "Vui lòng nhập mã giao dịch.";
+        return;
+      }
+
+      document.getElementById("thongbao").innerHTML =
+        `Đã gửi yêu cầu xác nhận giao dịch <strong>${madon}</strong> với số tiền <strong>${amount}đ</strong>. Vui lòng chờ admin kiểm tra.`;
+
+      document.getElementById("madon").value = "";
+    }
+  </script>
 </body>
 </html>
