@@ -1,632 +1,153 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop Acc Roblox - Mua acc & sản phẩm</title>
+  <meta charset="UTF-8">
+  <title>Tặng Robux Giả Lập</title>
   <style>
-    /* Reset & chung */
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f5f7;
-      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: #fff;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-    }
-    header {
-      width: 100%;
-      max-width: 1200px;
-      background: #d81b60;
-      color: white;
-      padding: 15px 20px;
-      font-weight: 700;
-      font-size: 1.4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 6px;
-      box-shadow: 0 3px 8px rgba(216,27,96,0.5);
-    }
-    header .btn-login, header .btn-deposit {
-      background: white;
-      color: #d81b60;
-      font-weight: 700;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-left: 10px;
-    }
-    header .btn-login:hover, header .btn-deposit:hover {
-      background: #fce4ec;
-    }
-    main {
-      width: 100%;
-      max-width: 1200px;
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-      gap: 18px;
-      padding-bottom: 40px;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 18px rgb(216 27 96 / 0.3);
-    }
-    .card h3 {
-      color: #d81b60;
-      margin-bottom: 10px;
-    }
-    .card p {
-      flex-grow: 1;
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 0.95rem;
-      line-height: 1.3;
-    }
-    .card .price {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #d81b60;
-      margin-bottom: 12px;
-    }
-    .card button.buy-btn {
-      background: #d81b60;
-      border: none;
-      color: white;
-      font-weight: 700;
-      padding: 12px 0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-size: 1rem;
-    }
-    .card button.buy-btn:hover {
-      background: #a31544;
-    }
-
-    /* Popup đăng nhập/đăng ký/nạp tiền */
-    .modal-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
       justify-content: center;
       align-items: center;
-      z-index: 999;
-      padding: 15px;
+      height: 100vh;
+      margin: 0;
     }
-    .modal-bg.active {
-      display: flex;
-    }
-    .modal {
-      background: white;
+
+    .container {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 30px;
       border-radius: 12px;
-      width: 100%;
-      max-width: 400px;
-      padding: 25px 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      position: relative;
-    }
-    .modal h2 {
-      color: #d81b60;
-      margin-bottom: 22px;
       text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
-    .modal form {
-      display: flex;
-      flex-direction: column;
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
     }
-    .modal label {
-      margin-bottom: 6px;
-      font-weight: 600;
+
+    input, select {
+      background: #f0f0f0;
       color: #333;
     }
-    .modal input, .modal select {
-      padding: 10px 12px;
-      margin-bottom: 18px;
-      border: 1.5px solid #ccc;
-      border-radius: 7px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-    .modal input:focus, .modal select:focus {
-      border-color: #d81b60;
-      outline: none;
-    }
-    .modal button {
-      background: #d81b60;
-      color: white;
-      font-weight: 700;
-      padding: 12px 0;
-      border-radius: 7px;
-      border: none;
+
+    button {
+      background: #ffcc00;
+      color: #000;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 1.1rem;
-      transition: background-color 0.3s;
     }
-    .modal button:hover {
-      background: #a31544;
+
+    button:hover {
+      background: #e6b800;
     }
-    .modal .toggle-link {
-      margin-top: 15px;
-      font-size: 0.9rem;
-      color: #555;
-      cursor: pointer;
-      text-align: center;
-      user-select: none;
-    }
-    .modal .toggle-link:hover {
-      color: #d81b60;
-      text-decoration: underline;
-    }
-    .modal .close-btn {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: #d81b60;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    .error-msg {
-      color: red;
-      font-size: 0.85rem;
-      margin-bottom: 10px;
+
+    .hidden {
       display: none;
     }
 
-    /* Responsive */
-    @media (max-width: 480px) {
-      header {
-        font-size: 1.2rem;
-        padding: 12px 15px;
-      }
-      .modal {
-        padding: 20px;
-      }
-      .modal input, .modal select {
-        font-size: 0.9rem;
-      }
-      main {
-        gap: 14px;
-      }
+    #avatarImage {
+      border-radius: 50%;
+      margin-top: 15px;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+
+    .error {
+      color: #ff8080;
+      font-weight: bold;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>🎁 Nhận Robux Miễn Phí 🎁</h1>
+    <p>Nhập tên tài khoản Roblox để tìm nhân vật:</p>
 
-<header>
-  Shop Acc Roblox
-  <div id="header-right"></div>
-</header>
+    <form id="robuxForm">
+      <input type="text" id="username" placeholder="Tên tài khoản Roblox..." required>
+      <button type="button" onclick="findUser()">Tìm kiếm</button>
 
-<main id="product-list">
-  <!-- Sản phẩm mẫu -->
-</main>
-
-<!-- Popup đăng nhập/đăng ký -->
-<div class="modal-bg" id="modalLogin">
-  <div class="modal">
-    <button class="close-btn" id="btnCloseModal">×</button>
-
-    <h2 id="modalTitle">Đăng nhập</h2>
-
-    <form id="formLogin">
-      <div class="error-msg" id="loginError"></div>
-      <label for="loginUser">Tên đăng nhập hoặc email</label>
-      <input type="text" id="loginUser" required />
-      <label for="loginPass">Mật khẩu</label>
-      <input type="password" id="loginPass" required />
-      <button type="submit">Đăng nhập</button>
-    </form>
-
-    <form konc="formRegister" style="display:none;">
-      <div class="error-msg" id="registerError"></div>
-      <label for="regUser">Tên đăng nhập</label>
-      <input type="text" id="regUser" required />
-      <label for="regEmail">Email</label>
-      <input type="email" id="regEmail" required />
-      <label for="regPass">Mật khẩu</label>
-      <input type="password" id="regPass" required />
-      <button type="submit">Đăng ký</button>
-    </form>
-
-    <div class="toggle-link" id="toggleLoginRegister">Bạn chưa có tài khoản? Đăng ký ngay</div>
-  </div>
-</div>
-
-<!-- Popup nạp tiền -->
-<div class="modal-bg" id="modalDeposit">
-  <div class="modal">
-    <button class="close-btn" id="btnCloseDepositModal">×</button>
-    <h2>Nạp tiền</h2>
-    <form id="formDeposit">
-      <div class="error-msg" id="depositError"></div>
-      <label for="depositMethod">Phương thức nạp</label>
-      <select id="depositMethod" required>
-        <option value="bank">Ngân hàng</option>
-        <option value="card">Thẻ cào</option>
-      </select>
-      <div id="bankFields">
-        <label for="bankName">Ngân hàng</label>
-        <select id="bankName" required>
-          <option value="">Chọn ngân hàng</option>
-          <option value="Vietcombank">Vietcombank</option>
-          <option value="Techcombank">Techcombank</option>
-          <option value="MBBank">MB Bank</option>
+      <div id="avatarSection" class="hidden">
+        <img id="avatarImage" src="" alt="Avatar Roblox" />
+        <select id="robuxAmount" required>
+          <option value="">Chọn số Robux</option>
+          <option value="100">100 Robux</option>
+          <option value="500">500 Robux</option>
+          <option value="1000">1000 Robux</option>
         </select>
-        <label for="bankAccount">Số tài khoản</label>
-        <input type="text" id="bankAccount" required />
+        <button type="submit">Nhận Ngay</button>
       </div>
-      <div id="cardFields" style="display:none;">
-        <label for="cardType">Loại thẻ</label>
-        <select id="cardType" required>
-          <option value="">Chọn loại thẻ</option>
-          <option value="Viettel">Viettel</option>
-          <option value="Mobifone">Mobifone</option>
-          <option value="Vinaphone">Vinaphone</option>
-        </select>
-        <label for="cardNumber">Mã thẻ</label>
-        <input type="text" id="cardNumber" required />
-        <label for="cardSerial">Số serial</label>
-        <input type="text" id="cardSerial" required />
-      </div>
-      <label for="depositAmount">Số tiền (VNĐ)</label>
-      <input type="number" id="depositAmount" min="10000" required />
-      <button type="submit">Nạp tiền</button>
     </form>
+
+    <div id="result" class="hidden"></div>
+    <div id="errorMsg" class="error hidden"></div>
   </div>
-</div>
 
-<script>
-  // Sản phẩm mẫu
-  const products = [
-    {id: 1, name: "Acc Roblox VIP", desc: "Tài khoản Roblox VIP với nhiều item hiếm.", price: 500000},
-    {id: 2, name: "Acc Roblox Thường", desc: "Tài khoản Roblox phổ biến, dễ sử dụng.", price: 100000},
-    {id: 3, name: "Acc Roblox Giá Rẻ", desc: "Tài khoản giá rẻ, phù hợp cho người mới.", price: 10000},
-    {id: 4, name: "Gift Card Roblox", desc: "Mã thẻ quà tặng Roblox giá trị.", price: 200000},
-    {id: 5, name: "Thẻ Nạp Momo", desc: "Nạp tiền tự động qua Momo.", price: 50000}
-  ];
+  <script>
+    const form = document.getElementById("robuxForm");
+    const result = document.getElementById("result");
+    const avatarSection = document.getElementById("avatarSection");
+    const avatarImage = document.getElementById("avatarImage");
+    const errorMsg = document.getElementById("errorMsg");
 
-  // Hiển thị sản phẩm
-  const productList = document.getElementById('product-list');
-  function showProducts(){
-    productList.innerHTML = '';
-    products.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <h3>${p.name}</h3>
-        <p>${p.desc}</p>
-        <div class="price">${p.price.toLocaleString()} VNĐ</div>
-        <button class="buy-btn" data-id="${p.id}">Mua ngay</button>
-      `;
-      productList.appendChild(card);
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.classList.remove("hidden");
+      avatarSection.classList.add("hidden");
+    }
+
+    function findUser() {
+      const username = document.getElementById("username").value.trim();
+      errorMsg.classList.add("hidden");
+      if (!username) return showError("⚠️ Vui lòng nhập tên người dùng Roblox!");
+
+      fetch("https://users.roblox.com/v1/usernames/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usernames: [username] })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.data && data.data.length > 0) {
+          const userId = data.data[0].id;
+          const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=150&height=150&format=png`;
+          avatarImage.src = avatarUrl;
+          avatarSection.classList.remove("hidden");
+        } else {
+          showError("❌ Không tìm thấy người dùng Roblox!");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        showError("🚫 Lỗi khi kết nối API. Có thể bạn đang mở file trực tiếp (file:///). Hãy dùng Live Server hoặc upload online.");
+      });
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      form.classList.add("hidden");
+      result.classList.remove("hidden");
+      result.innerHTML = "<h2>Đang xử lý yêu cầu...</h2><p>Vui lòng đợi trong giây lát...</p>";
+
+      setTimeout(() => {
+        result.innerHTML = `
+          <h2>❌ Thất bại!</h2>
+          <p>Hệ thống yêu cầu xác minh người thật.<br>
+          Vui lòng hoàn thành khảo sát để nhận Robux!</p>
+        `;
+      }, 3000);
     });
-  }
-  showProducts();
-
-  // Đăng nhập / đăng ký popup
-  const modalLogin = document.getElementById('modalLogin');
-  const btnLoginOpen = document.getElementById('btnLoginOpen');
-  const btnCloseModal = document.getElementById('btnCloseModal');
-  const formLogin = document.getElementById('formLogin');
-  const formRegister = document.getElementById('formRegister');
-  const toggleLoginRegister = document.getElementById('toggleLoginRegister');
-  const modalTitle = document.getElementById('modalTitle');
-  const loginError = document.getElementById('loginError');
-  const registerError = document.getElementById('registerError');
-
-  // Nạp tiền popup
-  const modalDeposit = document.getElementById('modalDeposit');
-  const btnCloseDepositModal = document.getElementById('btnCloseDepositModal');
-  const formDeposit = document.getElementById('formDeposit');
-  const depositError = document.getElementById('depositError');
-  const depositMethod = document.getElementById('depositMethod');
-  const bankFields = document.getElementById('bankFields');
-  const cardFields = document.getElementById('cardFields');
-
-  btnLoginOpen.onclick = () => {
-    modalLogin.classList.add('active');
-    showLoginForm();
-  }
-  btnCloseModal.onclick = () => {
-    modalLogin.classList.remove('active');
-    clearErrors();
-  }
-  btnCloseDepositModal.onclick = () => {
-    modalDeposit.classList.remove('active');
-    clearErrors();
-    formDeposit.reset();
-  }
-
-  toggleLoginRegister.onclick = () => {
-    if(formLogin.style.display !== 'none'){
-      showRegisterForm();
-    } else {
-      showLoginForm();
-    }
-    clearErrors();
-  }
-
-  function showLoginForm(){
-    formLogin.style.display = 'flex';
-    formRegister.style.display = 'none';
-    modalTitle.textContent = 'Đăng nhập';
-    toggleLoginRegister.textContent = 'Bạn chưa có tài khoản? Đăng ký ngay';
-  }
-  function showRegisterForm(){
-    formLogin.style.display = 'none';
-    formRegister.style.display = 'flex';
-    modalTitle.textContent = 'Đăng ký';
-    toggleLoginRegister.textContent = 'Bạn đã có tài khoản? Đăng nhập ngay';
-  }
-  function clearErrors(){
-    loginError.style.display = 'none';
-    registerError.style.display = 'none';
-    depositError.style.display = 'none';
-  }
-
-  // Quản lý user localStorage
-  function getUsers(){
-    return JSON.parse(localStorage.getItem('users') || '[]');
-  }
-  function saveUsers(users){
-    localStorage.setItem('users', JSON.stringify(users));
-  }
-  function getUserBalance(username){
-    const users = getUsers();
-    const user = users.find(u => u.username === username);
-    return user ? (user.balance || 0) : 0;
-  }
-  function updateUserBalance(username, amount){
-    const users = getUsers();
-    const user = users.find(u => u.username === username);
-    if(user){
-      user.balance = (user.balance || 0) + amount;
-      saveUsers(users);
-    }
-  }
-
-  // Đăng ký
-  formRegister.addEventListener('submit', e => {
-    e.preventDefault();
-    registerError.style.display = 'none';
-
-    const username = document.getElementById('regUser').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPass').value;
-
-    if(username.length < 4){
-      registerError.textContent = 'Tên đăng nhập phải ít nhất 4 ký tự.';
-      registerError.style.display = 'block';
-      return;
-    }
-    if(password.length < 6){
-      registerError.textContent = 'Mật khẩu phải ít nhất 6 ký tự.';
-      registerError.style.display = 'block';
-      return;
-    }
-    const users = getUsers();
-    if(users.find(u => u.username.toLowerCase() === username.toLowerCase())){
-      registerError.textContent = 'Tên đăng nhập đã tồn tại.';
-      registerError.style.display = 'block';
-      return;
-    }
-    if(users.find(u => u.email.toLowerCase() === email.toLowerCase())){
-      registerError.textContent = 'Email đã được sử dụng.';
-      registerError.style.display = 'block';
-      return;
-    }
-
-    users.push({username, email, password, balance: 0});
-    saveUsers(users);
-    alert('Đăng ký thành công! Vui lòng đăng nhập.');
-    showLoginForm();
-    formRegister.reset();
-  });
-
-  // Đăng nhập
-  formLogin.addEventListener('submit', e => {
-    e.preventDefault();
-    loginError.style.display = 'none';
-
-    const usernameOrEmail = document.getElementById('loginUser').value.trim();
-    const password = document.getElementById('loginPass').value;
-    const users = getUsers();
-
-    const user = users.find(u =>
-      (u.username.toLowerCase() === usernameOrEmail.toLowerCase() ||
-       u.email.toLowerCase() === usernameOrEmail.toLowerCase())
-      && u.password === password
-    );
-    if(!user){
-      loginError.textContent = 'Tên đăng nhập/email hoặc mật khẩu không đúng.';
-      loginError.style.display = 'block';
-      return;
-    }
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-    alert(`Chào mừng ${user.username}, bạn đã đăng nhập thành công!`);
-    modalLogin.classList.remove('active');
-    formLogin.reset();
-    updateHeaderUser();
-  });
-
-  // Hiển thị tên user và số dư
-  const headerRight = document.getElementById('header-right');
-  function updateHeaderUser(){
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    headerRight.innerHTML = '';
-    if(loggedInUser){
-      btnLoginOpen.style.display = 'none';
-      let userDiv = document.createElement('div');
-      userDiv.id = 'userDisplay';
-      userDiv.style.color = 'white';
-      userDiv.style.fontWeight = '600';
-      userDiv.style.cursor = 'default';
-      userDiv.style.userSelect = 'none';
-      userDiv.style.display = 'flex';
-      userDiv.style.alignItems = 'center';
-
-      const balanceSpan = document.createElement('span');
-      balanceSpan.textContent = `Số dư: ${getUserBalance(loggedInUser.username).toLocaleString()} VNĐ`;
-      balanceSpan.style.marginRight = '15px';
-
-      const depositBtn = document.createElement('button');
-      depositBtn.className = 'btn-deposit';
-      depositBtn.textContent = 'Nạp tiền';
-      depositBtn.onclick = () => {
-        modalDeposit.classList.add('active');
-      };
-
-      const logoutBtn = document.createElement('button');
-      logoutBtn.textContent = 'Đăng xuất';
-      logoutBtn.style.marginLeft = '15px';
-      logoutBtn.style.padding = '6px 12px';
-      logoutBtn.style.borderRadius = '6px';
-      logoutBtn.style.border = 'none';
-      logoutBtn.style.cursor = 'pointer';
-      logoutBtn.style.fontWeight = '700';
-      logoutBtn.style.background = 'white';
-      logoutBtn.style.color = '#d81b60';
-      logoutBtn.style.transition = 'background-color 0.3s';
-      logoutBtn.onmouseover = () => logoutBtn.style.background = '#fce4ec';
-      logoutBtn.onmouseout = () => logoutBtn.style.background = 'white';
-      logoutBtn.onclick = () => {
-        localStorage.removeItem('loggedInUser');
-        location.reload();
-      };
-
-      userDiv.textContent = `Xin chào, ${loggedInUser.username} | `;
-      userDiv.appendChild(balanceSpan);
-      userDiv.appendChild(depositBtn);
-      userDiv.appendChild(logoutBtn);
-      headerRight.appendChild(userDiv);
-    } else {
-      btnLoginOpen.style.display = 'inline-block';
-    }
-  }
-  updateHeaderUser();
-
-  // Xử lý nạp tiền
-  depositMethod.onchange = () => {
-    if(depositMethod.value === 'bank'){
-      bankFields.style.display = 'block';
-      cardFields.style.display = 'none';
-      bankFields.querySelectorAll('input, select').forEach(el => el.required = true);
-      cardFields.querySelectorAll('input, select').forEach(el => el.required = false);
-    } else {
-      bankFields.style.display = 'none';
-      cardFields.style.display = 'block';
-      bankFields.querySelectorAll('input, select').forEach(el => el.required = false);
-      cardFields.querySelectorAll('input, select').forEach(el => el.required = true);
-    }
-  };
-
-  formDeposit.addEventListener('submit', e => {
-    e.preventDefault();
-    depositError.style.display = 'none';
-
-    const method = depositMethod.value;
-    const amount = parseInt(document.getElementById('depositAmount').value);
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-
-    if(!loggedInUser){
-      depositError.textContent = 'Vui lòng đăng nhập để nạp tiền.';
-      depositError.style.display = 'block';
-      return;
-    }
-    if(amount < 10000){
-      depositError.textContent = 'Số tiền nạp tối thiểu là 10,000 VNĐ.';
-      depositError.style.display = 'block';
-      return;
-    }
-
-    if(method === 'bank'){
-      const bankName = document.getElementById('bankName').value;
-      const bankAccount = document.getElementById('bankAccount').value.trim();
-      if(!bankName || !bankAccount){
-        depositError.textContent = 'Vui lòng nhập đầy đủ thông tin ngân hàng.';
-        depositError.style.display = 'block';
-        return;
-      }
-      // Giả lập xác nhận nạp tiền qua ngân hàng
-      if(confirm(`Xác nhận nạp ${amount.toLocaleString()} VNĐ qua ngân hàng ${bankName}?`)){
-        updateUserBalance(loggedInUser.username, amount);
-        alert(`Nạp ${amount.toLocaleString()} VNĐ thành công qua ngân hàng!`);
-        modalDeposit.classList.remove('active');
-        formDeposit.reset();
-        updateHeaderUser();
-      }
-    } else if(method === 'card'){
-      const cardType = document.getElementById('cardType').value;
-      const cardNumber = document.getElementById('cardNumber').value.trim();
-      const cardSerial = document.getElementById('cardSerial').value.trim();
-      if(!cardType || !cardNumber || !cardSerial){
-        depositError.textContent = 'V jugu lòng nhập đầy đủ thông tin thẻ cào.';
-        depositError.style.display = 'block';
-        return;
-      }
-      // Giả lập xác nhận nạp tiền qua thẻ cào
-      if(confirm(`Xác nhận nạp ${amount.toLocaleString()} VNĐ qua thẻ ${cardType}?`)){
-        updateUserBalance(loggedInUser.username, amount);
-        alert(`Nạp ${amount.toLocaleString()} VNĐ thành công qua thẻ cào!`);
-        modalDeposit.classList.remove('active');
-        formDeposit.reset();
-        updateHeaderUser();
-      }
-    }
-  });
-
-  // Mua hàng với số dư
-  productList.addEventListener('click', e => {
-    if(e.target.classList.contains('buy-btn')){
-      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-      if(!loggedInUser){
-        alert('Bạn cần đăng nhập để mua hàng!');
-        modalLogin.classList.add('active');
-        showLoginForm();
-        return;
-      }
-      const productId = parseInt(e.target.dataset.id);
-      const product = products.find(p => p.id === productId);
-      if(product){
-        const balance = getUserBalance(loggedInUser.username);
-        if(balance < product.price){
-          alert(`Số dư không đủ! Vui lòng nạp thêm tiền. Số dư hiện tại: ${balance.toLocaleString()} VNĐ`);
-          modalDeposit.classList.add('active');
-          return;
-        }
-        if(confirm(`Bạn muốn mua "${product.name}" với giá ${product.price.toLocaleString()} VNĐ?`)){
-          updateUserBalance(loggedInUser.username, -product.price);
-          alert(`Cảm ơn bạn đã mua sản phẩm "${product.name}"!`);
-          updateHeaderUser();
-          // Thêm logic lưu đơn hàng ở đây nếu cần
-        }
-      }
-    }
-  });
-</script>
-
+  </script>
 </body>
-          </html>
+</html>
