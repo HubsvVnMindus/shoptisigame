@@ -113,8 +113,8 @@
                             <input id="game-price" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập giá (ví dụ: 1.200.000 VNĐ)">
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700">Hình Ảnh (URL)</label>
-                            <input id="game-image" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập URL hình ảnh">
+                            <label class="block text-gray-700">Hình Ảnh</label>
+                            <input id="game-image" type="file" accept="image/*" class="w-full p-2 border rounded-md">
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700">Danh Mục</label>
@@ -125,6 +125,13 @@
                         </div>
                         <button id="add-game" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Thêm Tài Khoản Game</button>
                         <div id="game-message" class="mt-4 text-gray-600"></div>
+                    </div>
+                </div>
+                <!-- Manage Game Accounts -->
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Danh Sách Tài Khoản Game</h3>
+                    <div id="game-list" class="bg-white rounded-lg shadow-lg p-6">
+                        <!-- Game accounts will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -146,6 +153,42 @@
         </footer>
     </div>
 
+    <!-- Edit Game Modal (Hidden by default) -->
+    <div id="edit-game-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Sửa Tài Khoản Game</h3>
+            <input id="edit-game-id" type="hidden">
+            <div class="mb-4">
+                <label class="block text-gray-700">Tên Tài Khoản</label>
+                <input id="edit-game-name" type="text" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Mô Tả (mỗi dòng một thông tin)</label>
+                <textarea id="edit-game-description" class="w-full p-2 border rounded-md"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Giá</label>
+                <input id="edit-game-price" type="text" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Hình Ảnh</label>
+                <input id="edit-game-image" type="file" accept="image/*" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Danh Mục</label>
+                <select id="edit-game-category" class="w-full p-2 border rounded-md">
+                    <option value="freefire">Free Fire</option>
+                    <option value="roblox">Roblox</option>
+                </select>
+            </div>
+            <div class="flex space-x-4">
+                <button id="save-edit-game" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Lưu</button>
+                <button id="cancel-edit-game" class="w-full bg-gray-600 text-white py-2 rounded-md hover:bg-gray-700">Hủy</button>
+            </div>
+            <div id="edit-game-message" class="mt-4 text-gray-600"></div>
+        </div>
+    </div>
+
     <script>
         // Default admin account
         const defaultAdmin = {
@@ -164,29 +207,10 @@
             }
         }
 
-        // Initialize default game accounts
+        // Initialize game accounts (empty by default)
         function initializeGameAccounts() {
-            let gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
-            if (gameAccounts.length === 0) {
-                gameAccounts = [
-                    {
-                        id: '1',
-                        category: 'freefire',
-                        name: 'Tài Khoản Free Fire Pro',
-                        description: 'Rank: Huyền Thoại\nSkin: Full vật phẩm\nServer: VN',
-                        price: '1.200.000 VNĐ',
-                        image: 'https://via.placeholder.com/300x150?text=Free+Fire'
-                    },
-                    {
-                        id: '2',
-                        category: 'roblox',
-                        name: 'Tài Khoản Roblox VIP',
-                        description: 'Robux: 10,000\nItems: Rare Pets & Skins\nServer: Global',
-                        price: '1.800.000 VNĐ',
-                        image: 'https://via.placeholder.com/300x150?text=Roblox'
-                    }
-                ];
-                localStorage.setItem('gameAccounts', JSON.stringify(gameAccounts));
+            if (!localStorage.getItem('gameAccounts')) {
+                localStorage.setItem('gameAccounts', JSON.stringify([]));
             }
         }
 
@@ -208,6 +232,7 @@
                     document.getElementById('admin').classList.remove('hidden');
                 }
                 displayGameAccounts();
+                displayGameList();
             } else {
                 loginSection.classList.remove('hidden');
                 shopSection.classList.add('hidden');
@@ -279,38 +304,47 @@
             const name = document.getElementById('game-name').value.trim();
             const description = document.getElementById('game-description').value.trim();
             const price = document.getElementById('game-price').value.trim();
-            const image = document.getElementById('game-image').value.trim();
+            const imageInput = document.getElementById('game-image');
             const category = document.getElementById('game-category').value;
-            if (!name || !description || !price || !image || !category) {
+            if (!name || !description || !price || !category) {
                 document.getElementById('game-message').textContent = 'Vui lòng nhập đầy đủ thông tin!';
                 return;
             }
-            const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
-            const newAccount = {
-                id: Date.now().toString(),
-                category,
-                name,
-                description,
-                price,
-                image
+            const reader = new FileReader();
+            reader.onload = () => {
+                const image = imageInput.files[0] ? reader.result : 'https://via.placeholder.com/300x150?text=Game+Image';
+                const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+                gameAccounts.push({
+                    id: Date.now().toString(),
+                    category,
+                    name,
+                    description,
+                    price,
+                    image
+                });
+                localStorage.setItem('gameAccounts', JSON.stringify(gameAccounts));
+                document.getElementById('game-message').textContent = 'Thêm tài khoản game thành công!';
+                document.getElementById('game-name').value = '';
+                document.getElementById('game-description').value = '';
+                document.getElementById('game-price').value = '';
+                imageInput.value = '';
+                displayGameAccounts();
+                displayGameList();
             };
-            gameAccounts.push(newAccount);
-            localStorage.setItem('gameAccounts', JSON.stringify(gameAccounts));
-            document.getElementById('game-message').textContent = 'Thêm tài khoản game thành công!';
-            document.getElementById('game-name').value = '';
-            document.getElementById('game-description').value = '';
-            document.getElementById('game-price').value = '';
-            document.getElementById('game-image').value = '';
-            displayGameAccounts();
+            if (imageInput.files[0]) {
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                reader.onload();
+            }
         });
 
-        // Display game accounts
+        // Display game accounts in shop
         function displayGameAccounts() {
             const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
             const freefireDiv = document.getElementById('freefire-accounts');
             const robloxDiv = document.getElementById('roblox-accounts');
-            freefireDiv.innerHTML = '';
-            robloxDiv.innerHTML = '';
+            freefireDiv.innerHTML = gameAccounts.filter(a => a.category === 'freefire').length === 0 ? '<p class="text-gray-600">Không có tài khoản nào.</p>' : '';
+            robloxDiv.innerHTML = gameAccounts.filter(a => a.category === 'roblox').length === 0 ? '<p class="text-gray-600">Không có tài khoản nào.</p>' : '';
             gameAccounts.forEach(account => {
                 const accountHtml = `
                     <div class="bg-white rounded-lg shadow-lg p-6">
@@ -318,7 +352,7 @@
                         <h3 class="text-xl font-semibold mt-4">${account.name}</h3>
                         <p class="text-gray-600 mt-2">${account.description.replace(/\n/g, '<br>')}</p>
                         <p class="text-lg font-bold text-green-600 mt-4">Giá: ${account.price}</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('${account.name}', '${account.price}', '2025-07-21 12:21')">Liên Hệ Qua Zalo</a>
+                        <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700" onclick="recordPurchase('${account.name}', '${account.price}', '2025-07-21 12:31')">Mua Ngay</button>
                     </div>
                 `;
                 if (account.category === 'freefire') {
@@ -329,34 +363,7 @@
             });
         }
 
-        // Record purchase history
-        function recordPurchase(accountName, price, date) {
-            let purchases = JSON.parse(localStorage.getItem('purchases')) || [];
-            purchases.push({ accountName, price, date });
-            localStorage.setItem('purchases', JSON.stringify(purchases));
-            displayPurchaseHistory();
-        }
-
-        // Display purchase history
-        function displayPurchaseHistory() {
-            const historyDiv = document.getElementById('purchase-history');
-            let purchases = JSON.parse(localStorage.getItem('purchases')) || [];
-            if (purchases.length === 0) {
-                historyDiv.innerHTML = '<p class="text-gray-600">Không có giao dịch nào.</p>';
-                return;
-            }
-            historyDiv.innerHTML = '<ul class="list-disc pl-5"></ul>';
-            const ul = historyDiv.querySelector('ul');
-            purchases.forEach(purchase => {
-                ul.innerHTML += `<li>${purchase.accountName} - ${purchase.price} - ${purchase.date}</li>`;
-            });
-        }
-
-        // Load purchase history and game accounts on page load
-        window.onload = () => {
-            checkLoginStatus();
-            displayPurchaseHistory();
-        };
-    </script>
-</body>
-</html>
+        // Display game accounts in admin list
+        function displayGameList() {
+            const gameListDiv = document.getElementById('game-list');
+       
