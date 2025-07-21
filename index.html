@@ -680,60 +680,901 @@
             document.getElementById('edit-game-username').value = '';
             document.getElementById('edit-game-password').value = '';
             document.getElementById('edit-game-description').value = '';
-            document.getElementById('edit-game-price').value = '';
-            document.getElementById('edit-game-image').value = '';
-            document.getElementById('edit-game-status').value = 'available';
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bán Tài Khoản Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Optional: Basic animation for toast notification */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+        .toast-show {
+            animation: fadeInOut 3s forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div id="login-section" class="flex items-center justify-center min-h-screen">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-center">Đăng Nhập</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700">Email</label>
+                <input id="login-email" type="email" class="w-full p-2 border rounded-md" placeholder="Nhập email">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Mật Khẩu</label>
+                <input id="login-password" type="password" class="w-full p-2 border rounded-md" placeholder="Nhập mật khẩu">
+            </div>
+            <button id="submit-login" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Đăng Nhập</button>
+        </div>
+    </div>
+
+    <div id="shop-section" class="hidden">
+        <header class="bg-blue-600 text-white py-4">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <h1 class="text-2xl md:text-3xl font-bold">Bán Tài Khoản Game Uy Tín</h1>
+                <div class="flex items-center space-x-4">
+                    <button id="logout-btn" class="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-200">Đăng Xuất</button>
+                    <button id="menu-toggle" class="md:hidden focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+                <nav id="menu" class="hidden md:flex space-x-4">
+                    <a href="#freefire" class="hover:underline">Free Fire</a>
+                    <a href="#roblox" class="hover:underline">Roblox</a>
+                    <a href="#history" class="hover:underline">Lịch Sử Mua</a>
+                    <a href="#admin" id="admin-link" class="hover:underline hidden">Quản Lý Admin</a>
+                </nav>
+            </div>
+        </header>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-700 text-white">
+            <a href="#freefire" class="block py-2 px-4 hover:bg-blue-800">Free Fire</a>
+            <a href="#roblox" class="block py-2 px-4 hover:bg-blue-800">Roblox</a>
+            <a href="#history" class="block py-2 px-4 hover:bg-blue-800">Lịch Sử Mua</a>
+            <a href="#admin" id="admin-mobile-link" class="block py-2 px-4 hover:bg-blue-800 hidden">Quản Lý Admin</a>
+        </div>
+
+        <section class="container mx-auto py-8">
+            <div id="freefire" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Tài Khoản Free Fire</h2>
+                <div id="freefire-accounts" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+                <div id="freefire-pagination" class="mt-4 flex justify-center space-x-2"></div>
+            </div>
+
+            <div id="roblox" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Tài Khoản Roblox</h2>
+                <div id="roblox-accounts" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+                <div id="roblox-pagination" class="mt-4 flex justify-center space-x-2"></div>
+            </div>
+
+            <div id="admin" class="mb-12 hidden">
+                <h2 class="text-2xl font-bold mb-4">Quản Lý Admin</h2>
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Tạo Tài Khoản Người Dùng</h3>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Email</label>
+                            <input id="admin-email" type="email" class="w-full p-2 border rounded-md" placeholder="Nhập email người dùng">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Mật Khẩu</label>
+                            <input id="admin-password" type="password" class="w-full p-2 border rounded-md" placeholder="Nhập mật khẩu">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Vai Trò</label>
+                            <select id="admin-role" class="w-full p-2 border rounded-md">
+                                <option value="user">Người Dùng</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <button id="create-user" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Tạo Tài Khoản</button>
+                        <div id="user-message" class="mt-4 text-gray-600"></div>
+                    </div>
+                </div>
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Thêm Tài Khoản Game</h3>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Tên Tài Khoản</label>
+                            <input id="game-name" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập tên tài khoản">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Tên Đăng Nhập Game</label>
+                            <input id="game-username" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập tên đăng nhập game">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Mật Khẩu Game</label>
+                            <input id="game-password" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập mật khẩu game">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Mô Tả (mỗi dòng một thông tin)</label>
+                            <textarea id="game-description" class="w-full p-2 border rounded-md" placeholder="Nhập mô tả (ví dụ: Rank: Huyền Thoại\nSkin: Full vật phẩm\nServer: VN)"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Giá</label>
+                            <input id="game-price" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập giá (ví dụ: 1.200.000 VNĐ)">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Hình Ảnh</label>
+                            <input id="game-image" type="file" accept="image/*" class="w-full p-2 border rounded-md">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Danh Mục</label>
+                            <select id="game-category" class="w-full p-2 border rounded-md">
+                                <option value="freefire">Free Fire</option>
+                                <option value="roblox">Roblox</option>
+                            </select>
+                        </div>
+                        <button id="add-game" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Thêm Tài Khoản Game</button>
+                        <div id="game-message" class="mt-4 text-gray-600"></div>
+                    </div>
+                </div>
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Danh Sách Tài Khoản Game</h3>
+                    <div id="game-list" class="bg-white rounded-lg shadow-lg p-6"></div>
+                    <div id="game-list-pagination" class="mt-4 flex justify-center space-x-2"></div>
+                </div>
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Danh Sách Yêu Cầu Mua</h3>
+                    <div id="purchase-requests" class="bg-white rounded-lg shadow-lg p-6"></div>
+                    <div id="purchase-requests-pagination" class="mt-4 flex justify-center space-x-2"></div>
+                </div>
+            </div>
+
+            <div id="history" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Lịch Sử Mua Tài Khoản</h2>
+                <div id="purchase-history" class="bg-white rounded-lg shadow-lg p-6">
+                    <p class="text-gray-600">Không có giao dịch nào.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-800 text-white py-4">
+            <div class="container mx-auto text-center">
+                <p>Liên hệ: <a href="tel:+84987654321" class="underline">0987 654 321</a> | Email: <a href="mailto:shopgame@gmail.com" class="underline">shopgame@gmail.com</a></p>
+                <p class="mt-2">© 2025 Shop Bán Acc Game. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="toast-notification" class="fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white hidden">
+        <p id="toast-text" class="flex items-center">
+            <svg id="toast-icon-success" class="w-5 h-5 mr-2 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <svg id="toast-icon-error" class="w-5 h-5 mr-2 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span></span>
+        </p>
+    </div>
+
+    <div id="edit-game-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Sửa Tài Khoản Game</h3>
+            <input id="edit-game-id" type="hidden">
+            <div class="mb-4">
+                <label class="block text-gray-700">Tên Tài Khoản</label>
+                <input id="edit-game-name" type="text" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Tên Đăng Nhập Game</label>
+                <input id="edit-game-username" type="text" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Mật Khẩu Game</label>
+                <input id="edit-game-password" type="text" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Mô Tả (mỗi dòng một thông tin)</label>
+                <textarea id="edit-game-description" class="w-full p-2 border rounded-md"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Giá</label>
+                <input id="edit-game-price" type="text" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Hình Ảnh</label>
+                <input id="edit-game-image" type="file" accept="image/*" class="w-full p-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Danh Mục</label>
+                <select id="edit-game-category" class="w-full p-2 border rounded-md">
+                    <option value="freefire">Free Fire</option>
+                    <option value="roblox">Roblox</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Trạng thái</label>
+                <select id="edit-game-status" class="w-full p-2 border rounded-md">
+                    <option value="available">Khả dụng</option>
+                    <option value="sold">Đã bán</option>
+                </select>
+            </div>
+            <div class="flex space-x-4">
+                <button id="save-edit-game" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Lưu</button>
+                <button id="cancel-edit-game" class="w-full bg-gray-600 text-white py-2 rounded-md hover:bg-gray-700">Hủy</button>
+            </div>
+            <div id="edit-game-message" class="mt-4 text-gray-600"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase services from the firebase-init.js file
+        import { auth, db } from './firebase-init.js';
+        
+        // Import specific Firebase Auth functions
+        import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+        
+        // Import specific Cloud Firestore functions
+        import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where, orderBy, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+        // --- DOM Elements & Utility Functions ---
+        const loginSection = document.getElementById('login-section');
+        const shopSection = document.getElementById('shop-section');
+        const toastNotification = document.getElementById('toast-notification');
+        // Ensure toastText correctly targets the span inside toastNotification
+        const toastText = toastNotification.querySelector('span'); 
+        const toastIconSuccess = document.getElementById('toast-icon-success');
+        const toastIconError = document.getElementById('toast-icon-error');
+        const itemsPerPage = 6; // Number of items per page for pagination
+
+        // Function to display toast notifications
+        function showToast(message, isSuccess) {
+            toastText.textContent = message;
+            toastIconSuccess.classList.add('hidden');
+            toastIconError.classList.add('hidden');
+
+            if (isSuccess) {
+                toastNotification.className = 'fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white bg-green-600 toast-show';
+                toastIconSuccess.classList.remove('hidden');
+            } else {
+                toastNotification.className = 'fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white bg-red-600 toast-show';
+                toastIconError.classList.remove('hidden');
+            }
+
+            toastNotification.classList.remove('hidden');
+
+            setTimeout(() => {
+                toastNotification.classList.add('hidden');
+                toastNotification.classList.remove('toast-show');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // --- Firebase Authentication Logic ---
+
+        // Listen for authentication state changes (login/logout)
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        const currentUser = {
+                            uid: user.uid,
+                            email: user.email,
+                            role: userData.role
+                        };
+                        // Store current user info in localStorage (for quick client-side access, not for auth!)
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                        loginSection.classList.add('hidden');
+                        shopSection.classList.remove('hidden');
+
+                        // Show/hide admin section based on role
+                        if (currentUser.role === 'admin') {
+                            document.getElementById('admin-link').classList.remove('hidden');
+                            document.getElementById('admin-mobile-link').classList.remove('hidden');
+                            document.getElementById('admin').classList.remove('hidden');
+                        } else {
+                            document.getElementById('admin-link').classList.add('hidden');
+                            document.getElementById('admin-mobile-link').classList.add('hidden');
+                            document.getElementById('admin').classList.add('hidden');
+                        }
+
+                        // Load initial data for shop and admin panels
+                        displayGameAccounts('freefire', 1);
+                        displayGameAccounts('roblox', 1);
+                        displayPurchaseHistory();
+
+                        if (currentUser.role === 'admin') {
+                            displayGameList(1);
+                            displayPurchaseRequests(1);
+                        }
+                    } else {
+                        // User exists in Auth but no role document in Firestore (should not happen if registration is correct)
+                        await signOut(auth); // Force logout
+                        localStorage.removeItem('currentUser');
+                        loginSection.classList.remove('hidden');
+                        shopSection.classList.add('hidden');
+                        showToast('Thông tin người dùng không đầy đủ, vui lòng đăng nhập lại.', false);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user role:", error);
+                    showToast('Đã xảy ra lỗi khi tải thông tin người dùng.', false);
+                    await signOut(auth); // Force logout on error
+                }
+            } else {
+                // User is signed out
+                localStorage.removeItem('currentUser');
+                loginSection.classList.remove('hidden');
+                shopSection.classList.add('hidden');
+                // Hide admin specific elements
+                document.getElementById('admin-link').classList.add('hidden');
+                document.getElementById('admin-mobile-link').classList.add('hidden');
+                document.getElementById('admin').classList.add('hidden');
+            }
         });
 
-        // Delete game account
-        function deleteGameAccount(id) {
-            if (confirm('Bạn có chắc muốn xóa tài khoản game này?')) {
-                const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
-                const updatedAccounts = gameAccounts.filter(a => a.id !== id);
-                localStorage.setItem('gameAccounts', JSON.stringify(updatedAccounts));
-                showToast('Tài khoản game đã bị xóa!', true);
-                displayGameAccounts('freefire', 1);
-                displayGameAccounts('roblox', 1);
-                displayGameList(1);
+        // Event listener for login button
+        document.getElementById('submit-login').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showToast('Đăng nhập thành công!', true);
+                // onAuthStateChanged will handle UI updates
+            } catch (error) {
+                console.error("Login error:", error.code, error.message);
+                if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    showToast('Email hoặc mật khẩu không đúng!', false);
+                } else {
+                    showToast(`Lỗi: ${error.message}`, false);
+                }
+            }
+        });
+
+        // Event listener for logout button
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showToast('Đăng xuất thành công!', true);
+                // onAuthStateChanged will handle UI updates
+            } catch (error) {
+                console.error("Logout error:", error.message);
+                showToast(`Lỗi: ${error.message}`, false);
+            }
+        });
+
+        // Event listener for creating a new user (Admin only)
+        document.getElementById('create-user').addEventListener('click', async () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('Bạn không có quyền tạo tài khoản người dùng!', false);
+                return;
+            }
+
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-password').value;
+            const role = document.getElementById('admin-role').value;
+
+            if (!email || !password) {
+                showToast('Vui lòng nhập đầy đủ email và mật khẩu!', false);
+                return;
+            }
+            if (password.length < 6) {
+                showToast('Mật khẩu phải có ít nhất 6 ký tự!', false);
+                return;
+            }
+
+            try {
+                // 1. Create user in Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 2. Save user role to Firestore using user's UID as document ID
+                await setDoc(doc(db, "users", user.uid), {
+                    email: email,
+                    role: role,
+                    createdAt: new Date()
+                });
+
+                showToast(`Tạo tài khoản "${role}" thành công cho ${email}!`, true);
+                document.getElementById('admin-email').value = '';
+                document.getElementById('admin-password').value = '';
+            } catch (error) {
+                console.error("Error creating user:", error.code, error.message);
+                if (error.code === 'auth/email-already-in-use') {
+                    showToast('Email đã tồn tại!', false);
+                } else if (error.code === 'auth/weak-password') {
+                    showToast('Mật khẩu quá yếu (ít nhất 6 ký tự)!', false);
+                } else {
+                    showToast(`Lỗi: ${error.message}`, false);
+                }
+            }
+        });
+
+        // --- Game Account Management (Firestore - Base64 Image) ---
+
+        // Event listener for adding a new game account (Admin only)
+        document.getElementById('add-game').addEventListener('click', async () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('Bạn không có quyền thêm tài khoản game!', false);
+                return;
+            }
+
+            const name = document.getElementById('game-name').value.trim();
+            const username = document.getElementById('game-username').value.trim();
+            const password = document.getElementById('game-password').value.trim();
+            const description = document.getElementById('game-description').value.trim();
+            const price = document.getElementById('game-price').value.trim();
+            const imageInput = document.getElementById('game-image');
+            const category = document.getElementById('game-category').value;
+
+            if (!name || !username || !password || !description || !price || !category) {
+                showToast('Vui lòng nhập đầy đủ thông tin!', false);
+                return;
+            }
+
+            try {
+                let base64Image = 'https://via.placeholder.com/300x150?text=No+Image'; // Default image if none provided
+
+                if (imageInput.files[0]) {
+                    // Convert image to Base64
+                    const reader = new FileReader();
+                    reader.readAsDataURL(imageInput.files[0]);
+                    base64Image = await new Promise((resolve, reject) => {
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = error => reject(error);
+                    });
+                }
+
+                // Add new document to 'gameAccounts' collection
+                await addDoc(collection(db, "gameAccounts"), {
+                    category,
+                    name,
+                    username,
+                    password,
+                    description,
+                    price,
+                    image: base64Image, // Store image as Base64 string
+                    status: 'available', // Initial status
+                    createdAt: new Date() // Add timestamp for sorting
+                });
+
+                showToast('Thêm tài khoản game thành công!', true);
+                // Clear form fields and refresh display
+                document.getElementById('game-name').value = '';
+                document.getElementById('game-username').value = '';
+                document.getElementById('game-password').value = '';
+                document.getElementById('game-description').value = '';
+                document.getElementById('game-price').value = '';
+                imageInput.value = '';
+                displayGameList(1); // Refresh admin list
+                displayGameAccounts('freefire', 1); // Refresh shop view
+                displayGameAccounts('roblox', 1); // Refresh shop view
+            } catch (error) {
+                console.error("Error adding game account:", error.message);
+                showToast(`Lỗi: ${error.message}`, false);
+            }
+        });
+
+        // Display game accounts on the shop page (for users)
+        window.displayGameAccounts = async function(category, page) { // Made global for onclick
+            const accountsDiv = document.getElementById(`${category}-accounts`);
+            const paginationDiv = document.getElementById(`${category}-pagination`);
+            accountsDiv.innerHTML = '<p class="text-gray-600">Đang tải tài khoản...</p>';
+
+            try {
+                const q = query(
+                    collection(db, "gameAccounts"),
+                    where("category", "==", category),
+                    orderBy("createdAt", "desc") // Sort by newest first
+                );
+                const querySnapshot = await getDocs(q); // Get all matching documents
+
+                const allAccounts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const availableAccounts = allAccounts.filter(a => a.status === 'available'); // Only show available ones
+
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedAccounts = availableAccounts.slice(start, end);
+
+                accountsDiv.innerHTML = paginatedAccounts.length === 0 ? '<p class="text-gray-600">Không có tài khoản nào khả dụng.</p>' : '';
+
+                paginatedAccounts.forEach(account => {
+                    accountsDiv.innerHTML += `
+                        <div class="bg-white rounded-lg shadow-lg p-6 relative">
+                            <img src="${account.image}" alt="${account.name}" class="w-full h-40 object-cover rounded-md">
+                            <h3 class="text-xl font-semibold mt-4">${account.name}</h3>
+                            <p class="text-gray-600 mt-2">${account.description.replace(/\n/g, '<br>')}</p>
+                            <p class="text-lg font-bold text-green-600 mt-4">Giá: ${account.price}</p>
+                            <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700" onclick="purchaseGameAccount('${account.id}')">Mua Ngay</button>
+                        </div>
+                    `;
+                });
+
+                // Pagination logic
+                const totalPages = Math.ceil(availableAccounts.length / itemsPerPage);
+                paginationDiv.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationDiv.innerHTML += `
+                        <button class="px-4 py-2 ${i === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'} rounded-md hover:bg-blue-500 hover:text-white" onclick="displayGameAccounts('${category}', ${i})">${i}</button>
+                    `;
+                }
+
+            } catch (error) {
+                console.error("Error loading game accounts:", error);
+                accountsDiv.innerHTML = '<p class="text-red-600">Đã xảy ra lỗi khi tải tài khoản.</p>';
             }
         }
 
-        // Display purchase history for user
-        function displayPurchaseHistory() {
-            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (!currentUser) return;
-            const purchases = JSON.parse(localStorage.getItem('purchases')) || [];
-            const userPurchases = purchases.filter(p => p.userEmail === currentUser.email);
-            const historyDiv = document.getElementById('purchase-history');
-            historyDiv.innerHTML = userPurchases.length === 0 ? '<p class="text-gray-600">Không có giao dịch nào.</p>' : '';
-            userPurchases.forEach(purchase => {
-                const account = JSON.parse(localStorage.getItem('gameAccounts')).find(a => a.id === purchase.accountId);
-                let detailsHtml = '';
-                let statusClass = '';
-                if (purchase.status === 'approved' && account) {
-                    detailsHtml = `Tên đăng nhập: <strong>${account.username}</strong><br>Mật khẩu: <strong>${account.password}</strong>`;
-                    statusClass = 'text-green-600';
-                } else if (purchase.status === 'pending') {
-                    detailsHtml = 'Đang chờ duyệt';
-                    statusClass = 'text-yellow-600';
-                } else if (purchase.status === 'rejected') {
-                    detailsHtml = 'Đã bị từ chối';
-                    statusClass = 'text-red-600';
-                }
+        // Display game list in admin panel
+        window.displayGameList = async function(page) { // Made global for onclick
+            const gameListDiv = document.getElementById('game-list');
+            const paginationDiv = document.getElementById('game-list-pagination');
+            gameListDiv.innerHTML = '<p class="text-gray-600">Đang tải danh sách game...</p>';
 
-                historyDiv.innerHTML += `
-                    <div class="bg-gray-100 p-4 mb-2 rounded-md">
-                        <p class="font-semibold">${purchase.accountName}</p>
-                        <p class="text-gray-600">Giá: ${purchase.price} | Ngày: ${purchase.date} | Trạng thái: <span class="${statusClass}">${detailsHtml}</span></p>
-                    </div>
-                `;
-            });
+            try {
+                // Get ALL game accounts for admin management
+                const q = query(collection(db, "gameAccounts"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                const allAccounts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedAccounts = allAccounts.slice(start, end);
+
+                gameListDiv.innerHTML = paginatedAccounts.length === 0 ? '<p class="text-gray-600">Không có tài khoản game nào.</p>' : '';
+                paginatedAccounts.forEach(account => {
+                    const statusText = account.status === 'sold' ? 'Đã bán' : 'Khả dụng';
+                    const statusColor = account.status === 'sold' ? 'text-red-600' : 'text-green-600';
+                    gameListDiv.innerHTML += `
+                        <div class="flex items-center justify-between bg-gray-100 p-4 mb-2 rounded-md">
+                            <div>
+                                <p class="font-semibold">${account.name} (${account.category === 'freefire' ? 'Free Fire' : 'Roblox'})</p>
+                                <p class="text-gray-600">Giá: ${account.price} | Trạng thái: <span class="${statusColor}">${statusText}</span></p>
+                            </div>
+                            <div class="space-x-2">
+                                <button class="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700" onclick="openEditModal('${account.id}')">Sửa</button>
+                                <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700" onclick="deleteGameAccount('${account.id}')">Xóa</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                const totalPages = Math.ceil(allAccounts.length / itemsPerPage);
+                paginationDiv.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationDiv.innerHTML += `
+                        <button class="px-4 py-2 ${i === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'} rounded-md hover:bg-blue-500 hover:text-white" onclick="displayGameList(${i})">${i}</button>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error loading admin game list:", error);
+                gameListDiv.innerHTML = '<p class="text-red-600">Đã xảy ra lỗi khi tải danh sách game.</p>';
+            }
         }
 
-        // Load purchase history and game accounts on page load
-        window.onload = () => {
-            checkLoginStatus();
-        };
+        // Open edit game modal
+        window.openEditModal = async function(id) { // Made global for onclick
+            try {
+                const gameDoc = await getDoc(doc(db, "gameAccounts", id));
+                if (gameDoc.exists()) {
+                    const account = { id: gameDoc.id, ...gameDoc.data() };
+                    document.getElementById('edit-game-id').value = account.id;
+                    document.getElementById('edit-game-name').value = account.name;
+                    document.getElementById('edit-game-username').value = account.username;
+                    document.getElementById('edit-game-password').value = account.password;
+                    document.getElementById('edit-game-description').value = account.description;
+                    document.getElementById('edit-game-price').value = account.price;
+                    document.getElementById('edit-game-category').value = account.category;
+                    document.getElementById('edit-game-status').value = account.status || 'available';
+                    document.getElementById('edit-game-modal').classList.remove('hidden');
+                } else {
+                    showToast('Không tìm thấy tài khoản để sửa!', false);
+                }
+            } catch (error) {
+                console.error("Error opening edit modal:", error.message);
+                showToast(`Lỗi: ${error.message}`, false);
+            }
+        }
+
+        // Event listener for saving edited game account (Admin only)
+        document.getElementById('save-edit-game').addEventListener('click', async () => {
+            const id = document.getElementById('edit-game-id').value;
+            const name = document.getElementById('edit-game-name').value.trim();
+            const username = document.getElementById('edit-game-username').value.trim();
+            const password = document.getElementById('edit-game-password').value.trim();
+            const description = document.getElementById('edit-game-description').value.trim();
+            const price = document.getElementById('edit-game-price').value.trim();
+            const imageInput = document.getElementById('edit-game-image'); // This is the file input for new image
+            const category = document.getElementById('edit-game-category').value;
+            const status = document.getElementById('edit-game-status').value;
+
+            if (!name || !username || !password || !description || !price || !category) {
+                showToast('Vui lòng nhập đầy đủ thông tin!', false);
+                return;
+            }
+
+            try {
+                const gameDocRef = doc(db, "gameAccounts", id);
+                const currentDoc = await getDoc(gameDocRef);
+                let base64Image = currentDoc.data().image; // Keep current image if no new image is uploaded
+
+                if (imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(imageInput.files[0]);
+                    base64Image = await new Promise((resolve, reject) => {
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = error => reject(error);
+                    });
+                }
+
+                await updateDoc(gameDocRef, {
+                    name, username, password, description, price,
+                    image: base64Image, // Update with new Base64 image or keep old
+                    category, status,
+                    updatedAt: new Date() // Add update timestamp
+                });
+
+                showToast('Sửa tài khoản game thành công!', true);
+                document.getElementById('edit-game-modal').classList.add('hidden');
+                displayGameAccounts('freefire', 1);
+                displayGameAccounts('roblox', 1);
+                displayGameList(1);
+            } catch (error) {
+                console.error("Error editing game account:", error.message);
+                showToast(`Lỗi: ${error.message}`, false);
+            }
+        });
+
+        // Event listener for canceling edit game modal
+        document.getElementById('cancel-edit-game').addEventListener('click', () => {
+            document.getElementById('edit-game-modal').classList.add('hidden');
+        });
+
+        // Delete game account (Admin only)
+        window.deleteGameAccount = async function(id) { // Made global for onclick
+            if (confirm('Bạn có chắc muốn xóa tài khoản game này?')) {
+                try {
+                    await deleteDoc(doc(db, "gameAccounts", id)); // Delete document from Firestore
+                    showToast('Tài khoản game đã bị xóa!', true);
+                    displayGameAccounts('freefire', 1);
+                    displayGameAccounts('roblox', 1);
+                    displayGameList(1);
+                } catch (error) {
+                    console.error("Error deleting game account:", error.message);
+                    showToast(`Lỗi: ${error.message}`, false);
+                }
+            }
+        }
+
+        // --- Purchase Management (Firestore) ---
+
+        // Purchase a game account (User)
+        window.purchaseGameAccount = async function(id) { // Made global for onclick
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                showToast('Vui lòng đăng nhập để mua tài khoản!', false);
+                return;
+            }
+
+            try {
+                const gameDoc = await getDoc(doc(db, "gameAccounts", id));
+                if (!gameDoc.exists()) {
+                    showToast('Tài khoản này không tồn tại!', false);
+                    return;
+                }
+                const account = { id: gameDoc.id, ...gameDoc.data() };
+
+                if (account.status === 'available') {
+                    // Check if user already has a pending purchase request for this account
+                    const qPending = query(
+                        collection(db, "purchases"),
+                        where("userId", "==", currentUser.uid),
+                        where("accountId", "==", account.id),
+                        where("status", "==", "pending")
+                    );
+                    const pendingSnapshot = await getDocs(qPending);
+                    if (!pendingSnapshot.empty) {
+                        showToast('Bạn đã có yêu cầu mua tài khoản này đang chờ duyệt!', false);
+                        return;
+                    }
+
+                    // Add a new document to 'purchases' collection
+                    await addDoc(collection(db, "purchases"), {
+                        userId: currentUser.uid, // Buyer's UID
+                        userEmail: currentUser.email,
+                        accountId: account.id,
+                        accountName: account.name,
+                        price: account.price,
+                        date: new Date().toLocaleString('vi-VN'), // Use current date/time
+                        status: 'pending', // Initial status
+                        createdAt: new Date() // Timestamp for sorting
+                    });
+                    showToast('Yêu cầu mua tài khoản đã được gửi, đang chờ admin duyệt!', true);
+                    displayPurchaseHistory(); // Refresh user's purchase history
+                    if (currentUser.role === 'admin') {
+                        displayPurchaseRequests(1); // Refresh admin purchase requests
+                    }
+                } else if (account.status === 'sold') {
+                    showToast('Tài khoản này đã được bán!', false);
+                } else {
+                    showToast('Tài khoản không khả dụng để mua.', false);
+                }
+            } catch (error) {
+                console.error("Error purchasing account:", error.message);
+                showToast(`Lỗi: ${error.message}`, false);
+            }
+        }
+
+        // Display purchase requests in admin panel
+        window.displayPurchaseRequests = async function(page) { // Made global for onclick
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser || currentUser.role !== 'admin') return; // Only for admin
+
+            const requestsDiv = document.getElementById('purchase-requests');
+            const paginationDiv = document.getElementById('purchase-requests-pagination');
+            requestsDiv.innerHTML = '<p class="text-gray-600">Đang tải yêu cầu mua...</p>';
+
+            try {
+                const q = query(collection(db, "purchases"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                const allPurchases = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedPurchases = allPurchases.slice(start, end);
+
+                requestsDiv.innerHTML = paginatedPurchases.length === 0 ? '<p class="text-gray-600">Không có yêu cầu mua nào.</p>' : '';
+                paginatedPurchases.forEach(purchase => {
+                    const statusText = purchase.status === 'approved' ? 'Đã duyệt' : (purchase.status === 'rejected' ? 'Đã từ chối' : 'Chưa duyệt');
+                    const statusColor = purchase.status === 'approved' ? 'text-green-600' : (purchase.status === 'rejected' ? 'text-red-600' : 'text-yellow-600');
+
+                    requestsDiv.innerHTML += `
+                        <div class="flex items-center justify-between bg-gray-100 p-4 mb-2 rounded-md">
+                            <div>
+                                <p class="font-semibold">${purchase.accountName} - ${purchase.userEmail}</p>
+                                <p class="text-gray-600">Giá: ${purchase.price} | Ngày: ${purchase.date} | Trạng thái: <span class="${statusColor}">${statusText}</span></p>
+                            </div>
+                            <div class="space-x-2">
+                                ${purchase.status === 'pending' ? `
+                                    <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700" onclick="approvePurchase('${purchase.id}', '${purchase.accountId}')">Duyệt</button>
+                                    <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700" onclick="rejectPurchase('${purchase.id}')">Từ chối</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                const totalPages = Math.ceil(allPurchases.length / itemsPerPage);
+                paginationDiv.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationDiv.innerHTML += `
+                        <button class="px-4 py-2 ${i === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'} rounded-md hover:bg-blue-500 hover:text-white" onclick="displayPurchaseRequests(${i})">${i}</button>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error loading purchase requests:", error.message);
+                requestsDiv.innerHTML = '<p class="text-red-600">Đã xảy ra lỗi khi tải yêu cầu mua.</p>';
+            }
+        }
+
+        // Approve a purchase request (Admin only)
+        window.approvePurchase = async function(purchaseId, gameAccountId) { // Made global for onclick
+            try {
+                // Update purchase status
+                await updateDoc(doc(db, "purchases", purchaseId), {
+                    status: 'approved',
+                    processedAt: new Date()
+                });
+
+                // Update game account status to 'sold'
+                await updateDoc(doc(db, "gameAccounts", gameAccountId), {
+                    status: 'sold'
+                });
+
+                showToast('Yêu cầu mua đã được duyệt!', true);
+                displayPurchaseRequests(1); // Refresh admin requests
+                displayPurchaseHistory(); // Refresh user history (in case admin is also a user)
+                displayGameAccounts('freefire', 1); // Refresh shop view
+                displayGameAccounts('roblox', 1); // Refresh shop view
+                displayGameList(1); // Refresh admin game list
+            } catch (error) {
+                console.error("Error approving purchase request:", error.message);
+                showToast(`Lỗi: ${error.message}`, false);
+            }
+        }
+
+        // Reject a purchase request (Admin only)
+        window.rejectPurchase = async function(id) { // Made global for onclick
+            if (confirm('Bạn có chắc muốn từ chối yêu cầu mua này?')) {
+                try {
+                    await updateDoc(doc(db, "purchases", id), {
+                        status: 'rejected',
+                        processedAt: new Date()
+                    });
+                    showToast('Yêu cầu mua đã được từ chối!', false);
+                    displayPurchaseRequests(1);
+                    displayPurchaseHistory();
+                } catch (error) {
+                    console.error("Error rejecting purchase request:", error.message);
+                    showToast(`Lỗi: ${error.message}`, false);
+                }
+            }
+        }
+
+        // Display user's purchase history
+        window.displayPurchaseHistory = async function() { // Made global for onclick
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                document.getElementById('purchase-history').innerHTML = '<p class="text-gray-600">Vui lòng đăng nhập để xem lịch sử mua hàng.</p>';
+                return;
+            }
+
+            const historyDiv = document.getElementById('purchase-history');
+            historyDiv.innerHTML = '<p class="text-gray-600">Đang tải lịch sử mua hàng...</p>';
+
+            try {
+                // Get purchases for the current user
+                const q = query(
+                    collection(db, "purchases"),
+                    where("userId", "==", currentUser.uid),
+                    orderBy("createdAt", "desc")
+                );
+                const querySnapshot = await getDocs(q);
+                const userPurchases = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                historyDiv.innerHTML = userPurchases.length === 0 ? '<p class="text-gray-600">Bạn chưa có giao dịch nào.</p>' : '';
+
+                for (const purchase of userPurchases) {
+                    let detailsHtml = '';
+                    let statusClass = '';
+
+                    // Fetch associated game account info (for username/password if approved)
+                    let account = null;
+                    if (purchase.accountId) {
+                        const gameDoc = await getDoc(doc(db, "gameAccounts", purchase.accountId));
+                        if (gameDoc.exists()) {
+                            account = { id: gameDoc.id, ...gameDoc.data() };
+                        }
+                    }
+
+                    if (purchase.status === 'approved' && account) {
+                        detailsHtml = `Đã duyệt<br>Tên đăng nhập: <strong>${account.username}</strong><br>Mật khẩu: <strong>${account.password}</strong>`;
+                        statusClass = 'text-green-600';
+                    } else if (purchase.status === 'pending') {
+                        detailsHtml = 'Đang chờ duyệt';
+                        statusClass = 'text-yellow-600';
+                    } else if (purchase.status === 'rejected') {
+                        detailsHtml = 'Đã bị từ chối';
+                        statusClass = 'text-red-600';
+                    }
+
+                    historyDiv.innerHTML += `
+                        <div class="bg-gray-100 p-4 mb-2 rounded-md">
+                            <p class="font-semibold">${purchase.accountName}</p>
+                            <p class="text-gray-600">Giá: ${purchase.price} | Ngày: ${purchase.date} | Trạng thái: <span class="${statusClass}">${detailsHtml}</span></p>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                console.error("Error loading purchase history:", error.message);
+                historyDiv.innerHTML = '<p class="text-red-600">Đã xảy ra lỗi khi tải lịch sử mua hàng.</p>';
+            }
+        }
+
+        // --- UI Interactions ---
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Hide mobile menu when a link is clicked
+        document.getElementById('mobile-menu').querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
     </script>
 </body>
 </html>
