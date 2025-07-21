@@ -366,4 +366,127 @@
         // Display game accounts in admin list
         function displayGameList() {
             const gameListDiv = document.getElementById('game-list');
-       
+            const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+            gameListDiv.innerHTML = gameAccounts.length === 0 ? '<p class="text-gray-600">Không có tài khoản game nào.</p>' : '';
+            gameAccounts.forEach(account => {
+                gameListDiv.innerHTML += `
+                    <div class="flex items-center justify-between bg-gray-100 p-4 mb-2 rounded-md">
+                        <div>
+                            <p class="font-semibold">${account.name} (${account.category === 'freefire' ? 'Free Fire' : 'Roblox'})</p>
+                            <p class="text-gray-600">Giá: ${account.price}</p>
+                        </div>
+                        <div class="space-x-2">
+                            <button class="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700" onclick="openEditModal('${account.id}')">Sửa</button>
+                            <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700" onclick="deleteGameAccount('${account.id}')">Xóa</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Open edit game modal
+        function openEditModal(id) {
+            const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+            const account = gameAccounts.find(a => a.id === id);
+            if (account) {
+                document.getElementById('edit-game-id').value = account.id;
+                document.getElementById('edit-game-name').value = account.name;
+                document.getElementById('edit-game-description').value = account.description;
+                document.getElementById('edit-game-price').value = account.price;
+                document.getElementById('edit-game-category').value = account.category;
+                document.getElementById('edit-game-modal').classList.remove('hidden');
+            }
+        }
+
+        // Handle edit game account
+        document.getElementById('save-edit-game').addEventListener('click', () => {
+            const id = document.getElementById('edit-game-id').value;
+            const name = document.getElementById('edit-game-name').value.trim();
+            const description = document.getElementById('edit-game-description').value.trim();
+            const price = document.getElementById('edit-game-price').value.trim();
+            const imageInput = document.getElementById('edit-game-image');
+            const category = document.getElementById('edit-game-category').value;
+            if (!name || !description || !price || !category) {
+                document.getElementById('edit-game-message').textContent = 'Vui lòng nhập đầy đủ thông tin!';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+                const index = gameAccounts.findIndex(a => a.id === id);
+                if (index !== -1) {
+                    gameAccounts[index] = {
+                        id,
+                        category,
+                        name,
+                        description,
+                        price,
+                        image: imageInput.files[0] ? reader.result : gameAccounts[index].image
+                    };
+                    localStorage.setItem('gameAccounts', JSON.stringify(gameAccounts));
+                    document.getElementById('edit-game-message').textContent = 'Sửa tài khoản game thành công!';
+                    document.getElementById('edit-game-modal').classList.add('hidden');
+                    displayGameAccounts();
+                    displayGameList();
+                }
+            };
+            if (imageInput.files[0]) {
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                reader.onload();
+            }
+        });
+
+        // Cancel edit game
+        document.getElementById('cancel-edit-game').addEventListener('click', () => {
+            document.getElementById('edit-game-modal').classList.add('hidden');
+            document.getElementById('edit-game-message').textContent = '';
+            document.getElementById('edit-game-name').value = '';
+            document.getElementById('edit-game-description').value = '';
+            document.getElementById('edit-game-price').value = '';
+            document.getElementById('edit-game-image').value = '';
+        });
+
+        // Delete game account
+        function deleteGameAccount(id) {
+            if (confirm('Bạn có chắc muốn xóa tài khoản game này?')) {
+                const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+                const updatedAccounts = gameAccounts.filter(a => a.id !== id);
+                localStorage.setItem('gameAccounts', JSON.stringify(updatedAccounts));
+                displayGameAccounts();
+                displayGameList();
+            }
+        }
+
+        // Record purchase history
+        function recordPurchase(accountName, price, date) {
+            let purchases = JSON.parse(localStorage.getItem('purchases')) || [];
+            purchases.push({ accountName, price, date });
+            localStorage.setItem('purchases', JSON.stringify(purchases));
+            alert('Mua thành công! Đã ghi vào lịch sử mua.');
+            displayPurchaseHistory();
+        }
+
+        // Display purchase history
+        function displayPurchaseHistory() {
+            const historyDiv = document.getElementById('purchase-history');
+            let purchases = JSON.parse(localStorage.getItem('purchases')) || [];
+            if (purchases.length === 0) {
+                historyDiv.innerHTML = '<p class="text-gray-600">Không có giao dịch nào.</p>';
+                return;
+            }
+            historyDiv.innerHTML = '<ul class="list-disc pl-5"></ul>';
+            const ul = historyDiv.querySelector('ul');
+            purchases.forEach(purchase => {
+                ul.innerHTML += `<li>${purchase.accountName} - ${purchase.price} - ${purchase.date}</li>`;
+            });
+        }
+
+        // Load purchase history and game accounts on page load
+        window.onload = () => {
+            checkLoginStatus();
+            displayPurchaseHistory();
+        };
+    </script>
+</body>
+</html>
