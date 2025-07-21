@@ -32,7 +32,7 @@
                 <div class="flex items-center space-x-4">
                     <button id="logout-btn" class="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-200">Đăng Xuất</button>
                     <button id="menu-toggle" class="md:hidden focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                         </svg>
                     </button>
@@ -41,7 +41,7 @@
                     <a href="#freefire" class="hover:underline">Free Fire</a>
                     <a href="#roblox" class="hover:underline">Roblox</a>
                     <a href="#history" class="hover:underline">Lịch Sử Mua</a>
-                    <a href="#admin" id="admin-link" class="hover:underline hidden">Quản Lý Tài Khoản</a>
+                    <a href="#admin" id="admin-link" class="hover:underline hidden">Quản Lý Admin</a>
                 </nav>
             </div>
         </header>
@@ -50,60 +50,82 @@
             <a href="#freefire" class="block py-2 px-4 hover:bg-blue-800">Free Fire</a>
             <a href="#roblox" class="block py-2 px-4 hover:bg-blue-800">Roblox</a>
             <a href="#history" class="block py-2 px-4 hover:bg-blue-800">Lịch Sử Mua</a>
-            <a href="#admin" id="admin-mobile-link" class="block py-2 px-4 hover:bg-blue-800 hidden">Quản Lý Tài Khoản</a>
+            <a href="#admin" id="admin-mobile-link" class="block py-2 px-4 hover:bg-blue-800 hidden">Quản Lý Admin</a>
         </div>
 
         <section class="container mx-auto py-8">
             <!-- Free Fire Section -->
             <div id="freefire" class="mb-12">
                 <h2 class="text-2xl font-bold mb-4">Tài Khoản Free Fire</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <img src="https://via.placeholder.com/300x150?text=Free+Fire" alt="Free Fire Thumbnail" class="w-full h-40 object-cover rounded-md">
-                        <h3 class="text-xl font-semibold mt-4">Tài Khoản Free Fire Pro</h3>
-                        <p class="text-gray-600 mt-2">Rank: Huyền Thoại<br>Skin: Full vật phẩm<br>Server: VN</p>
-                        <p class="text-lg font-bold text-green-600 mt-4">Giá: 1.200.000 VNĐ</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Free Fire Pro', '1.200.000 VNĐ', '2025-07-21 12:12')">Liên Hệ Qua Zalo</a>
-                    </div>
+                <div id="freefire-accounts" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Accounts will be populated by JavaScript -->
                 </div>
             </div>
 
             <!-- Roblox Section -->
             <div id="roblox" class="mb-12">
                 <h2 class="text-2xl font-bold mb-4">Tài Khoản Roblox</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <img src="https://via.placeholder.com/300x150?text=Roblox" alt="Roblox Thumbnail" class="w-full h-40 object-cover rounded-md">
-                        <h3 class="text-xl font-semibold mt-4">Tài Khoản Roblox VIP</h3>
-                        <p class="text-gray-600 mt-2">Robux: 10,000<br>Items: Rare Pets & Skins<br>Server: Global</p>
-                        <p class="text-lg font-bold text-green-600 mt-4">Giá: 1.800.000 VNĐ</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Roblox VIP', '1.800.000 VNĐ', '2025-07-21 12:12')">Liên Hệ Qua Zalo</a>
-                    </div>
+                <div id="roblox-accounts" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Accounts will be populated by JavaScript -->
                 </div>
             </div>
 
             <!-- Admin Section (Hidden by default) -->
             <div id="admin" class="mb-12 hidden">
-                <h2 class="text-2xl font-bold mb-4">Quản Lý Tài Khoản (Admin)</h2>
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4">Quản Lý Admin</h2>
+                <!-- Create User Account -->
+                <div class="mb-12">
                     <h3 class="text-xl font-semibold mb-4">Tạo Tài Khoản Người Dùng</h3>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Email</label>
-                        <input id="admin-email" type="email" class="w-full p-2 border rounded-md" placeholder="Nhập email người dùng">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Email</label>
+                            <input id="admin-email" type="email" class="w-full p-2 border rounded-md" placeholder="Nhập email người dùng">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Mật Khẩu</label>
+                            <input id="admin-password" type="password" class="w-full p-2 border rounded-md" placeholder="Nhập mật khẩu">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Vai Trò</label>
+                            <select id="admin-role" class="w-full p-2 border rounded-md">
+                                <option value="user">Người Dùng</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <button id="create-user" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Tạo Tài Khoản</button>
+                        <div id="user-message" class="mt-4 text-gray-600"></div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Mật Khẩu</label>
-                        <input id="admin-password" type="password" class="w-full p-2 border rounded-md" placeholder="Nhập mật khẩu">
+                </div>
+                <!-- Add Game Account -->
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Thêm Tài Khoản Game</h3>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Tên Tài Khoản</label>
+                            <input id="game-name" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập tên tài khoản">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Mô Tả (mỗi dòng một thông tin)</label>
+                            <textarea id="game-description" class="w-full p-2 border rounded-md" placeholder="Nhập mô tả (ví dụ: Rank: Huyền Thoại\nSkin: Full vật phẩm\nServer: VN)"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Giá</label>
+                            <input id="game-price" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập giá (ví dụ: 1.200.000 VNĐ)">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Hình Ảnh (URL)</label>
+                            <input id="game-image" type="text" class="w-full p-2 border rounded-md" placeholder="Nhập URL hình ảnh">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Danh Mục</label>
+                            <select id="game-category" class="w-full p-2 border rounded-md">
+                                <option value="freefire">Free Fire</option>
+                                <option value="roblox">Roblox</option>
+                            </select>
+                        </div>
+                        <button id="add-game" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Thêm Tài Khoản Game</button>
+                        <div id="game-message" class="mt-4 text-gray-600"></div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Vai Trò</label>
-                        <select id="admin-role" class="w-full p-2 border rounded-md">
-                            <option value="user">Người Dùng</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                    <button id="create-account" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Tạo Tài Khoản</button>
-                    <div id="admin-message" class="mt-4 text-gray-600"></div>
                 </div>
             </div>
 
@@ -142,6 +164,32 @@
             }
         }
 
+        // Initialize default game accounts
+        function initializeGameAccounts() {
+            let gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+            if (gameAccounts.length === 0) {
+                gameAccounts = [
+                    {
+                        id: '1',
+                        category: 'freefire',
+                        name: 'Tài Khoản Free Fire Pro',
+                        description: 'Rank: Huyền Thoại\nSkin: Full vật phẩm\nServer: VN',
+                        price: '1.200.000 VNĐ',
+                        image: 'https://via.placeholder.com/300x150?text=Free+Fire'
+                    },
+                    {
+                        id: '2',
+                        category: 'roblox',
+                        name: 'Tài Khoản Roblox VIP',
+                        description: 'Robux: 10,000\nItems: Rare Pets & Skins\nServer: Global',
+                        price: '1.800.000 VNĐ',
+                        image: 'https://via.placeholder.com/300x150?text=Roblox'
+                    }
+                ];
+                localStorage.setItem('gameAccounts', JSON.stringify(gameAccounts));
+            }
+        }
+
         // Check login status and toggle sections
         const loginSection = document.getElementById('login-section');
         const shopSection = document.getElementById('shop-section');
@@ -149,6 +197,7 @@
 
         function checkLoginStatus() {
             initializeUsers();
+            initializeGameAccounts();
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             if (currentUser) {
                 loginSection.classList.add('hidden');
@@ -158,19 +207,12 @@
                     document.getElementById('admin-mobile-link').classList.remove('hidden');
                     document.getElementById('admin').classList.remove('hidden');
                 }
+                displayGameAccounts();
             } else {
                 loginSection.classList.remove('hidden');
                 shopSection.classList.add('hidden');
             }
         }
-
-        // Run on page load
-        checkLoginStatus();
-
-        // Toggle mobile menu
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
 
         // Handle login
         document.getElementById('submit-login').addEventListener('click', () => {
@@ -196,11 +238,16 @@
             checkLoginStatus();
         });
 
-        // Handle account creation (admin only)
-        document.getElementById('create-account').addEventListener('click', () => {
+        // Toggle mobile menu
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Handle user account creation
+        document.getElementById('create-user').addEventListener('click', () => {
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             if (!currentUser || currentUser.role !== 'admin') {
-                document.getElementById('admin-message').textContent = 'Chỉ admin mới có quyền tạo tài khoản!';
+                document.getElementById('user-message').textContent = 'Chỉ admin mới có quyền tạo tài khoản!';
                 return;
             }
             const email = document.getElementById('admin-email').value.trim();
@@ -208,15 +255,79 @@
             const role = document.getElementById('admin-role').value;
             const users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.find(u => u.email === email)) {
-                document.getElementById('admin-message').textContent = 'Email đã tồn tại!';
+                document.getElementById('user-message').textContent = 'Email đã tồn tại!';
+                return;
+            }
+            if (!email || !password) {
+                document.getElementById('user-message').textContent = 'Vui lòng nhập đầy đủ email và mật khẩu!';
                 return;
             }
             users.push({ email, password, role });
             localStorage.setItem('users', JSON.stringify(users));
-            document.getElementById('admin-message').textContent = 'Tạo tài khoản thành công!';
+            document.getElementById('user-message').textContent = 'Tạo tài khoản thành công!';
             document.getElementById('admin-email').value = '';
             document.getElementById('admin-password').value = '';
         });
+
+        // Handle game account addition
+        document.getElementById('add-game').addEventListener('click', () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser || currentUser.role !== 'admin') {
+                document.getElementById('game-message').textContent = 'Chỉ admin mới có quyền thêm tài khoản game!';
+                return;
+            }
+            const name = document.getElementById('game-name').value.trim();
+            const description = document.getElementById('game-description').value.trim();
+            const price = document.getElementById('game-price').value.trim();
+            const image = document.getElementById('game-image').value.trim();
+            const category = document.getElementById('game-category').value;
+            if (!name || !description || !price || !image || !category) {
+                document.getElementById('game-message').textContent = 'Vui lòng nhập đầy đủ thông tin!';
+                return;
+            }
+            const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+            const newAccount = {
+                id: Date.now().toString(),
+                category,
+                name,
+                description,
+                price,
+                image
+            };
+            gameAccounts.push(newAccount);
+            localStorage.setItem('gameAccounts', JSON.stringify(gameAccounts));
+            document.getElementById('game-message').textContent = 'Thêm tài khoản game thành công!';
+            document.getElementById('game-name').value = '';
+            document.getElementById('game-description').value = '';
+            document.getElementById('game-price').value = '';
+            document.getElementById('game-image').value = '';
+            displayGameAccounts();
+        });
+
+        // Display game accounts
+        function displayGameAccounts() {
+            const gameAccounts = JSON.parse(localStorage.getItem('gameAccounts')) || [];
+            const freefireDiv = document.getElementById('freefire-accounts');
+            const robloxDiv = document.getElementById('roblox-accounts');
+            freefireDiv.innerHTML = '';
+            robloxDiv.innerHTML = '';
+            gameAccounts.forEach(account => {
+                const accountHtml = `
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <img src="${account.image}" alt="${account.name}" class="w-full h-40 object-cover rounded-md">
+                        <h3 class="text-xl font-semibold mt-4">${account.name}</h3>
+                        <p class="text-gray-600 mt-2">${account.description.replace(/\n/g, '<br>')}</p>
+                        <p class="text-lg font-bold text-green-600 mt-4">Giá: ${account.price}</p>
+                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('${account.name}', '${account.price}', '2025-07-21 12:21')">Liên Hệ Qua Zalo</a>
+                    </div>
+                `;
+                if (account.category === 'freefire') {
+                    freefireDiv.innerHTML += accountHtml;
+                } else if (account.category === 'roblox') {
+                    robloxDiv.innerHTML += accountHtml;
+                }
+            });
+        }
 
         // Record purchase history
         function recordPurchase(accountName, price, date) {
@@ -241,11 +352,11 @@
             });
         }
 
-        // Load purchase history on page load
+        // Load purchase history and game accounts on page load
         window.onload = () => {
             checkLoginStatus();
             displayPurchaseHistory();
         };
     </script>
 </body>
-                </html>
+</html>
