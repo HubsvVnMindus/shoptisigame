@@ -32,10 +32,8 @@
                 <div class="flex items-center space-x-4">
                     <button id="logout-btn" class="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-200">Đăng Xuất</button>
                     <button id="menu-toggle" class="md:hidden focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <
-
-path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                         </svg>
                     </button>
                 </div>
@@ -65,7 +63,7 @@ path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M
                         <h3 class="text-xl font-semibold mt-4">Tài Khoản Free Fire Pro</h3>
                         <p class="text-gray-600 mt-2">Rank: Huyền Thoại<br>Skin: Full vật phẩm<br>Server: VN</p>
                         <p class="text-lg font-bold text-green-600 mt-4">Giá: 1.200.000 VNĐ</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Free Fire Pro', '1.200.000 VNĐ', '2025-07-21 12:07')">Liên Hệ Qua Zalo</a>
+                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Free Fire Pro', '1.200.000 VNĐ', '2025-07-21 12:12')">Liên Hệ Qua Zalo</a>
                     </div>
                 </div>
             </div>
@@ -79,7 +77,7 @@ path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M
                         <h3 class="text-xl font-semibold mt-4">Tài Khoản Roblox VIP</h3>
                         <p class="text-gray-600 mt-2">Robux: 10,000<br>Items: Rare Pets & Skins<br>Server: Global</p>
                         <p class="text-lg font-bold text-green-600 mt-4">Giá: 1.800.000 VNĐ</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Roblox VIP', '1.800.000 VNĐ', '2025-07-21 12:07')">Liên Hệ Qua Zalo</a>
+                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Roblox VIP', '1.800.000 VNĐ', '2025-07-21 12:12')">Liên Hệ Qua Zalo</a>
                     </div>
                 </div>
             </div>
@@ -127,14 +125,20 @@ path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M
     </div>
 
     <script>
-        // Initialize localStorage with an admin account if none exists
-        function initializeAdminAccount() {
-            if (!localStorage.getItem('users')) {
-                const initialUsers = [
-                    { email: 'admin@shopgame.com', password: btoa('admin123'), role: 'admin' }
-                ];
-                localStorage.setItem('users', JSON.stringify(initialUsers));
-                console.log('Admin account initialized: admin@shopgame.com / admin123');
+        // Default admin account
+        const defaultAdmin = {
+            email: 'admin@shopgame.com',
+            password: btoa('admin123'),
+            role: 'admin'
+        };
+
+        // Initialize or update users with default admin account
+        function initializeUsers() {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if (!users.find(u => u.email === defaultAdmin.email)) {
+                users.push(defaultAdmin);
+                localStorage.setItem('users', JSON.stringify(users));
+                console.log('Default admin account initialized: admin@shopgame.com / admin123');
             }
         }
 
@@ -144,7 +148,7 @@ path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M
         const loginError = document.getElementById('login-error');
 
         function checkLoginStatus() {
-            initializeAdminAccount();
+            initializeUsers();
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             if (currentUser) {
                 loginSection.classList.add('hidden');
@@ -181,6 +185,7 @@ path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M
                 checkLoginStatus();
             } else {
                 loginError.classList.remove('hidden');
+                loginError.textContent = 'Email hoặc mật khẩu không đúng!';
             }
         });
 
@@ -243,4 +248,4 @@ path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M
         };
     </script>
 </body>
-</html>
+                </html>
