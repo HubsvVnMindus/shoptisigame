@@ -20,6 +20,7 @@
                 <input id="login-password" type="password" class="w-full p-2 border rounded-md" placeholder="Nhập mật khẩu">
             </div>
             <button id="submit-login" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Đăng Nhập</button>
+            <p id="login-error" class="mt-2 text-red-600 hidden">Email hoặc mật khẩu không đúng!</p>
         </div>
     </div>
 
@@ -32,7 +33,9 @@
                     <button id="logout-btn" class="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-200">Đăng Xuất</button>
                     <button id="menu-toggle" class="md:hidden focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            <
+
+path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                         </svg>
                     </button>
                 </div>
@@ -62,7 +65,7 @@
                         <h3 class="text-xl font-semibold mt-4">Tài Khoản Free Fire Pro</h3>
                         <p class="text-gray-600 mt-2">Rank: Huyền Thoại<br>Skin: Full vật phẩm<br>Server: VN</p>
                         <p class="text-lg font-bold text-green-600 mt-4">Giá: 1.200.000 VNĐ</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Free Fire Pro', '1.200.000 VNĐ', '2025-07-21 11:59')">Liên Hệ Qua Zalo</a>
+                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Free Fire Pro', '1.200.000 VNĐ', '2025-07-21 12:07')">Liên Hệ Qua Zalo</a>
                     </div>
                 </div>
             </div>
@@ -76,7 +79,7 @@
                         <h3 class="text-xl font-semibold mt-4">Tài Khoản Roblox VIP</h3>
                         <p class="text-gray-600 mt-2">Robux: 10,000<br>Items: Rare Pets & Skins<br>Server: Global</p>
                         <p class="text-lg font-bold text-green-600 mt-4">Giá: 1.800.000 VNĐ</p>
-                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Roblox VIP', '1.800.000 VNĐ', '2025-07-21 11:59')">Liên Hệ Qua Zalo</a>
+                        <a href="https://zalo.me/0987654321" target="_blank" class="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-center block" onclick="recordPurchase('Tài Khoản Roblox VIP', '1.800.000 VNĐ', '2025-07-21 12:07')">Liên Hệ Qua Zalo</a>
                     </div>
                 </div>
             </div>
@@ -125,29 +128,40 @@
 
     <script>
         // Initialize localStorage with an admin account if none exists
-        if (!localStorage.getItem('users')) {
-            const initialUsers = [
-                { email: 'admin@shopgame.com', password: btoa('admin123'), role: 'admin' }
-            ];
-            localStorage.setItem('users', JSON.stringify(initialUsers));
+        function initializeAdminAccount() {
+            if (!localStorage.getItem('users')) {
+                const initialUsers = [
+                    { email: 'admin@shopgame.com', password: btoa('admin123'), role: 'admin' }
+                ];
+                localStorage.setItem('users', JSON.stringify(initialUsers));
+                console.log('Admin account initialized: admin@shopgame.com / admin123');
+            }
         }
 
         // Check login status and toggle sections
         const loginSection = document.getElementById('login-section');
         const shopSection = document.getElementById('shop-section');
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser) {
-            loginSection.classList.add('hidden');
-            shopSection.classList.remove('hidden');
-            if (currentUser.role === 'admin') {
-                document.getElementById('admin-link').classList.remove('hidden');
-                document.getElementById('admin-mobile-link').classList.remove('hidden');
-                document.getElementById('admin').classList.remove('hidden');
+        const loginError = document.getElementById('login-error');
+
+        function checkLoginStatus() {
+            initializeAdminAccount();
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                loginSection.classList.add('hidden');
+                shopSection.classList.remove('hidden');
+                if (currentUser.role === 'admin') {
+                    document.getElementById('admin-link').classList.remove('hidden');
+                    document.getElementById('admin-mobile-link').classList.remove('hidden');
+                    document.getElementById('admin').classList.remove('hidden');
+                }
+            } else {
+                loginSection.classList.remove('hidden');
+                shopSection.classList.add('hidden');
             }
-        } else {
-            loginSection.classList.remove('hidden');
-            shopSection.classList.add('hidden');
         }
+
+        // Run on page load
+        checkLoginStatus();
 
         // Toggle mobile menu
         document.getElementById('menu-toggle').addEventListener('click', () => {
@@ -156,22 +170,17 @@
 
         // Handle login
         document.getElementById('submit-login').addEventListener('click', () => {
-            const email = document.getElementById('login-email').value;
+            const email = document.getElementById('login-email').value.trim();
             const password = btoa(document.getElementById('login-password').value);
             const users = JSON.parse(localStorage.getItem('users')) || [];
             const user = users.find(u => u.email === email && u.password === password);
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 alert('Đăng nhập thành công!');
-                loginSection.classList.add('hidden');
-                shopSection.classList.remove('hidden');
-                if (user.role === 'admin') {
-                    document.getElementById('admin-link').classList.remove('hidden');
-                    document.getElementById('admin-mobile-link').classList.remove('hidden');
-                    document.getElementById('admin').classList.remove('hidden');
-                }
+                loginError.classList.add('hidden');
+                checkLoginStatus();
             } else {
-                alert('Email hoặc mật khẩu không đúng!');
+                loginError.classList.remove('hidden');
             }
         });
 
@@ -179,11 +188,7 @@
         document.getElementById('logout-btn').addEventListener('click', () => {
             localStorage.removeItem('currentUser');
             alert('Đăng xuất thành công!');
-            loginSection.classList.remove('hidden');
-            shopSection.classList.add('hidden');
-            document.getElementById('admin-link').classList.add('hidden');
-            document.getElementById('admin-mobile-link').classList.add('hidden');
-            document.getElementById('admin').classList.add('hidden');
+            checkLoginStatus();
         });
 
         // Handle account creation (admin only)
@@ -193,7 +198,7 @@
                 document.getElementById('admin-message').textContent = 'Chỉ admin mới có quyền tạo tài khoản!';
                 return;
             }
-            const email = document.getElementById('admin-email').value;
+            const email = document.getElementById('admin-email').value.trim();
             const password = btoa(document.getElementById('admin-password').value);
             const role = document.getElementById('admin-role').value;
             const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -232,7 +237,10 @@
         }
 
         // Load purchase history on page load
-        window.onload = displayPurchaseHistory;
+        window.onload = () => {
+            checkLoginStatus();
+            displayPurchaseHistory();
+        };
     </script>
 </body>
 </html>
