@@ -899,33 +899,45 @@
 
         // Khởi tạo dữ liệu ban đầu
         if (!localStorage.getItem('users') || !Array.isArray(JSON.parse(localStorage.getItem('users')))) {
-    const initialUsers = [
-        {
-            uid: 'admin_1',
-            email: 'admin@shopgame.com',
-            password: CryptoJS.AES.encrypt('admin123', secretKey).toString(),
-            role: 'admin',
-            createdAt: new Date().toISOString()
-        },
-        // Thêm tài khoản người dùng mới
-        {
-            uid: 'user_1',
-            email: 'user1@shopgame.com',
-            password: CryptoJS.AES.encrypt('user123', secretKey).toString(),
-            role: 'user',
-            createdAt: new Date().toISOString()
-        },
-        // Thêm tài khoản admin mới
-        {
-            uid: 'admin_2',
-            email: 'admin2@shopgame.com',
-            password: CryptoJS.AES.encrypt('admin456', secretKey).toString(),
-            role: 'admin',
-            createdAt: new Date().toISOString()
+            const initialUsers = [
+                {
+                    uid: 'admin_1',
+                    email: 'admin@shopgame.com',
+                    password: CryptoJS.AES.encrypt('admin123', secretKey).toString(),
+                    role: 'admin',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    uid: 'user_1',
+                    email: 'user1@shopgame.com',
+                    password: CryptoJS.AES.encrypt('user123', secretKey).toString(),
+                    role: 'user',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    uid: 'admin_2',
+                    email: 'admin2@shopgame.com',
+                    password: CryptoJS.AES.encrypt('admin456', secretKey).toString(),
+                    role: 'admin',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    uid: 'user_2',
+                    email: 'user2@shopgame.com',
+                    password: CryptoJS.AES.encrypt('user456', secretKey).toString(),
+                    role: 'user',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    uid: 'user_3',
+                    email: 'user3@shopgame.com',
+                    password: CryptoJS.AES.encrypt('user789', secretKey).toString(),
+                    role: 'user',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            saveUsers(initialUsers);
         }
-    ];
-    saveUsers(initialUsers);
-}
 
         if (!localStorage.getItem('gameAccounts') || !Array.isArray(JSON.parse(localStorage.getItem('gameAccounts')))) {
             const initialAccounts = [
